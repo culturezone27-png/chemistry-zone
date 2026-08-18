@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chemistry Zone — Search Real Chemical Reactions</title>
+<meta name="description" content="Chemistry Zone is a searchable database of real chemical reactions with balanced equations, explanations, and an interactive periodic table.">
+<meta name="keywords" content="chemistry, chemical reactions, periodic table, chemical equations, chemistry zone">
+<meta property="og:title" content="Chemistry Zone">
+<meta property="og:description" content="Search real chemical reactions and explore an interactive periodic table.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A1412;
+  --bg-deep:#070E0C;
+  --panel:#10201B;
+  --panel-alt:#152722;
+  --border:rgba(160,210,195,0.12);
+  --border-soft:rgba(160,210,195,0.06);
+  --text:#EAF3EF;
+  --text-muted:#7C948C;
+  --text-dim:#4C625C;
+  --green:#3ECF8E;
+  --green-dim:#1F8F62;
+  --amber:#FF9B4D;
+  --blue:#5EC8FF;
+  --red:#FF6B6B;
+  --purple:#C792EA;
+  --radius:14px;
+  --mono:'JetBrains Mono', monospace;
+  --display:'Space Grotesk', sans-serif;
+  --body:'Inter', sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ===== background texture: faint periodic table grid ===== */
+.bg-grid{
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(62,207,142,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62,207,142,0.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  pointer-events:none;
+}
+.bg-vignette{
+  position:fixed; inset:0; z-index:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 30%, rgba(62,207,142,0.06), transparent 60%),
+              radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255,155,77,0.05), transparent 60%);
+  pointer-events:none;
+}
+.bg-elements{
+  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+}
+.ghost-el{
+  position:absolute;
+  font-family:var(--mono);
+  color:rgba(160,210,195,0.05);
+  font-size:13px;
+  font-weight:700;
+  border:1px solid rgba(160,210,195,0.04);
+  width:38px; height:38px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:4px;
+  user-select:none;
+}
+
+/* ===== floating test tubes ===== */
+.labware{ position:fixed; bottom:0; z-index:0; pointer-events:none; opacity:0.5; }
+.labware.left{ left:2%; }
+.labware.right{ right:3%; transform:scaleX(-1); }
+.bubble{
+  fill:var(--green);
+  opacity:0;
+  animation:rise 4s ease-in infinite;
+}
+@keyframes rise{
+  0%{ opacity:0; transform:translateY(0) scale(0.6); }
+  15%{ opacity:0.6; }
+  90%{ opacity:0.15; }
+  100%{ opacity:0; transform:translateY(-70px) scale(1); }
+}
+
+/* ===== nav ===== */
+header{
+  position:relative; z-index:5;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:26px 5%;
+}
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--display); font-weight:700; font-size:19px;
+  letter-spacing:0.5px;
+  cursor:pointer;
+}
+.logo-mark{
+  width:30px; height:30px; position:relative;
+}
+.logo-mark svg{ width:100%; height:100%; }
+.logo-text .zone{ color:var(--green); }
+nav{ display:flex; gap:8px; align-items:center; }
+.nav-link{
+  font-family:var(--body); font-size:14px; font-weight:500;
+  color:var(--text-muted);
+  background:transparent;
+  border:1px solid transparent;
+  padding:9px 16px;
+  border-radius:100px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  letter-spacing:0.2px;
+}
+.nav-link:hover{ color:var(--text); border-color:var(--border); background:var(--panel); }
+.nav-link.active{ color:var(--green); border-color:var(--green-dim); background:rgba(62,207,142,0.08); }
+
+/* ===== hero ===== */
+main{ position:relative; z-index:5; }
+.hero{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:60px 20px 20px;
+  min-height:60vh;
+  text-align:center;
+}
+.eyebrow{
+  font-family:var(--mono); font-size:12px; color:var(--text-dim);
+  letter-spacing:3px; text-transform:uppercase; margin-bottom:22px;
+}
+.eyebrow span{ color:var(--green); }
+
+.orb-wrap{
+  position:relative;
+  width:230px; height:230px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:36px;
+}
+.orbit{
+  position:absolute; inset:0;
+  border:1px solid rgba(62,207,142,0.18);
+  border-radius:50%;
+}
+.orbit.o1{ animation:spin 14s linear infinite; }
+.orbit.o2{ inset:20px; border-color:rgba(94,200,255,0.14); animation:spin 20s linear infinite reverse; transform:rotate(60deg); }
+.orbit.o3{ inset:20px; border-color:rgba(255,155,77,0.12); animation:spin 26s linear infinite; transform:rotate(-40deg); }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.orbit.o2{ animation-name:spin2; }
+@keyframes spin2{ from{ transform:rotate(60deg); } to{ transform:rotate(420deg); } }
+.orbit.o3{ animation-name:spin3; }
+@keyframes spin3{ from{ transform:rotate(-40deg); } to{ transform:rotate(320deg); } }
+.electron{
+  position:absolute; width:7px; height:7px; border-radius:50%;
+  top:-4px; left:50%; margin-left:-3.5px;
+  box-shadow:0 0 8px 2px currentColor;
+}
+.orbit.o1 .electron{ color:var(--green); background:var(--green); }
+.orbit.o2 .electron{ color:var(--blue); background:var(--blue); }
+.orbit.o3 .electron{ color:var(--amber); background:var(--amber); }
+
+.nucleus{
+  position:relative; z-index:2;
+  width:150px; height:150px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #14332A, #0C1D18 70%);
+  border:1.5px solid var(--green-dim);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:box-shadow 0.35s ease, border-color 0.35s ease, transform 0.2s ease;
+  box-shadow:0 0 0 0 rgba(62,207,142,0.0), inset 0 0 30px rgba(62,207,142,0.06);
+  animation:pulse 3.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{ box-shadow:0 0 18px 2px rgba(62,207,142,0.10), inset 0 0 30px rgba(62,207,142,0.06); }
+  50%{ box-shadow:0 0 34px 6px rgba(62,207,142,0.22), inset 0 0 30px rgba(62,207,142,0.10); }
+}
+.nucleus:hover{ transform:scale(1.035); border-color:var(--green); }
+.nucleus .ic{ font-size:22px; color:var(--green); margin-bottom:8px; line-height:1; }
+.nucleus .lbl{
+  font-family:var(--display); font-weight:600; font-size:15px;
+  letter-spacing:1.5px; color:var(--text);
+}
+.nucleus .lbl2{
+  font-family:var(--mono); font-size:9.5px; color:var(--text-dim);
+  letter-spacing:1px; margin-top:4px;
+}
+
+.search-bar-wrap{
+  width:100%; max-width:520px;
+  display:none;
+  animation:fadeUp 0.4s ease;
+}
+.search-bar-wrap.show{ display:block; }
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+.search-bar{
+  display:flex; align-items:center; gap:10px;
+  background:var(--panel);
+  border:1.5px solid var(--green-dim);
+  border-radius:100px;
+  padding:8px 8px 8px 22px;
+  box-shadow:0 0 0 4px rgba(62,207,142,0.06);
+}
+.search-bar input{
+  flex:1; background:transparent; border:none; outline:none;
+  color:var(--text); font-family:var(--body); font-size:15px;
+}
+.search-bar input::placeholder{ color:var(--text-dim); }
+.search-bar button{
+  background:var(--green); color:#04241A; border:none;
+  width:38px; height:38px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:16px; flex-shrink:0;
+  transition:transform 0.15s ease;
+}
+.search-bar button:hover{ transform:scale(1.08); }
+.search-close{
+  background:transparent; border:none; color:var(--text-dim);
+  width:30px; height:30px; border-radius:50%; cursor:pointer;
+  font-size:14px; flex-shrink:0;
+}
+.search-close:hover{ color:var(--text); background:var(--panel-alt); }
+.search-hint{
+  margin-top:12px; font-family:var(--mono); font-size:11.5px; color:var(--text-dim);
+}
+
+/* chips */
+.chips{
+  display:flex; flex-wrap:wrap; gap:9px; justify-content:center;
+  max-width:640px; margin-top:34px;
+}
+.chip{
+  font-family:var(--mono); font-size:12px; font-weight:500;
+  color:var(--text-muted);
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:8px 16px; border-radius:100px;
+  cursor:pointer; transition:all 0.2s ease;
+  letter-spacing:0.3px;
+}
+.chip:hover{ border-color:var(--green-dim); color:var(--green); background:rgba(62,207,142,0.06); }
+.chip.active{ background:var(--green); color:#04241A; border-color:var(--green); }
+
+/* ===== results ===== */
+.results{
+  max-width:980px; margin:0 auto; padding:50px 5% 100px;
+  display:none;
+}
+.results.show{ display:block; animation:fadeUp 0.45s ease; }
+.results-head{
+  display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px;
+  border-bottom:1px solid var(--border); padding-bottom:14px;
+}
+.results-head h2{
+  font-family:var(--display); font-size:18px; font-weight:600;
+}
+.results-count{ font-family:var(--mono); font-size:12px; color:var(--text-dim); }
+.card-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px;
+}
+.rcard{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  transition:border-color 0.2s ease, transform 0.2s ease;
+  cursor:pointer;
+}
+.rcard:hover{ border-color:var(--green-dim); transform:translateY(-2px); }
+.rcard-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:12px; }
+.rcard-title{ font-family:var(--display); font-size:15.5px; font-weight:600; }
+.badge{
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  padding:4px 9px; border-radius:100px; letter-spacing:0.5px;
+  white-space:nowrap; text-transform:uppercase;
+}
+.badge.exo{ background:rgba(255,107,107,0.14); color:#FF9494; }
+.badge.endo{ background:rgba(94,200,255,0.14); color:var(--blue); }
+.badge.neutral{ background:rgba(199,146,234,0.14); color:var(--purple); }
+.rcard-eq{
+  font-family:var(--mono); font-size:15px; color:var(--green);
+  background:var(--bg-deep); border:1px solid var(--border-soft);
+  border-radius:8px; padding:12px 14px; margin-bottom:12px;
+  overflow-x:auto; white-space:nowrap;
+}
+.rcard-cat{
+  font-family:var(--mono); font-size:10.5px; color:var(--amber);
+  letter-spacing:0.5px; text-transform:uppercase; margin-bottom:8px;
+}
+.rcard-desc{ font-size:13.5px; color:var(--text-muted); line-height:1.65; }
+.no-results{
+  text-align:center; padding:40px 20px; color:var(--text-dim); font-family:var(--mono); font-size:13px;
+}
+
+/* detail modal */
+.overlay{
+  position:fixed; inset:0; z-index:50;
+  background:rgba(4,10,8,0.78);
+  backdrop-filter:blur(3px);
+  display:none; align-items:center; justify-content:center;
+  padding:20px;
+}
+.overlay.show{ display:flex; animation:fadeIn 0.2s ease; }
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+.detail-card{
+  background:var(--panel-alt); border:1px solid var(--border);
+  border-radius:18px; max-width:560px; width:100%;
+  padding:32px; max-height:85vh; overflow-y:auto;
+  position:relative;
+}
+.detail-close{
+  position:absolute; top:18px; right:18px;
+  background:var(--panel); border:1px solid var(--border);
+  width:32px; height:32px; border-radius:50%; color:var(--text-muted);
+  cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center;
+}
+.detail-close:hover{ color:var(--text); }
+.detail-card h3{ font-family:var(--display); font-size:20px; margin-bottom:14px; padding-right:30px; }
+.detail-eq{
+  font-family:var(--mono); font-size:19px; color:var(--green);
+  background:var(--bg-deep); border:1px solid var(--border-soft);
+  border-radius:10px; padding:18px; margin-bottom:18px; overflow-x:auto;
+}
+.detail-badges{ display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+.detail-row{ margin-bottom:16px; }
+.detail-row .k{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px; }
+.detail-row .v{ font-size:14px; line-height:1.7; color:var(--text); }
+.detail-elements{ display:flex; gap:8px; flex-wrap:wrap; }
+.mini-el{
+  font-family:var(--mono); font-weight:700; font-size:13px;
+  width:34px; height:34px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--border); cursor:pointer;
+}
+
+/* ===== periodic table page ===== */
+.pt-page{ display:none; padding:20px 3% 90px; position:relative; z-index:5; }
+.pt-page.show{ display:block; }
+.pt-head{ text-align:center; margin-bottom:30px; }
+.pt-head h1{ font-family:var(--display); font-size:26px; font-weight:600; margin-bottom:8px; }
+.pt-head p{ color:var(--text-muted); font-size:13.5px; max-width:480px; margin:0 auto; }
+.pt-legend{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin:20px 0 30px; }
+.pt-legend-item{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10.5px; color:var(--text-muted); }
+.pt-swatch{ width:11px; height:11px; border-radius:3px; }
+.pt-grid{
+  display:grid;
+  grid-template-columns:repeat(18, minmax(0,1fr));
+  gap:4px;
+  max-width:1200px; margin:0 auto;
+  overflow-x:auto;
+}
+.el-tile{
+  aspect-ratio:1; border-radius:5px;
+  border:1px solid var(--border);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:pointer; transition:transform 0.15s ease, border-color 0.15s ease;
+  min-width:38px;
+  background:var(--panel);
+}
+.el-tile:hover{ transform:translateY(-2px) scale(1.06); border-color:var(--text); z-index:2; }
+.el-tile .num{ font-family:var(--mono); font-size:7.5px; color:var(--text-dim); position:relative; top:-3px; left:-9px; align-self:flex-start; }
+.el-tile .sym{ font-family:var(--display); font-weight:700; font-size:13px; margin-top:-6px; }
+.el-tile.hl{ outline:2px solid var(--green); outline-offset:1px; }
+.pt-spacer{ }
+
+.pt-panel{
+  position:fixed; top:0; right:0; height:100vh; width:340px; max-width:90vw;
+  background:var(--panel-alt); border-left:1px solid var(--border);
+  z-index:60; padding:28px 26px; overflow-y:auto;
+  transform:translateX(100%); transition:transform 0.3s ease;
+}
+.pt-panel.show{ transform:translateX(0); }
+.pt-panel-close{
+  background:var(--panel); border:1px solid var(--border); color:var(--text-muted);
+  width:32px; height:32px; border-radius:50%; cursor:pointer; margin-bottom:20px;
+}
+.pt-panel .big-sym{ font-family:var(--display); font-size:52px; font-weight:700; line-height:1; }
+.pt-panel .el-name{ font-family:var(--display); font-size:19px; margin:8px 0 18px; }
+.pt-fact{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--border-soft); font-size:13px; }
+.pt-fact .k{ color:var(--text-dim); font-family:var(--mono); font-size:11px; }
+.pt-related{ margin-top:22px; }
+.pt-related h4{ font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-dim); margin-bottom:10px; }
+.pt-related-item{
+  font-family:var(--mono); font-size:12.5px; color:var(--green);
+  background:var(--bg-deep); border:1px solid var(--border-soft);
+  border-radius:6px; padding:8px 10px; margin-bottom:6px; cursor:pointer;
+}
+.pt-related-item:hover{ border-color:var(--green-dim); }
+
+footer{
+  position:relative; z-index:5;
+  text-align:center; padding:30px 20px; color:var(--text-dim);
+  font-family:var(--mono); font-size:11px; letter-spacing:0.5px;
+  border-top:1px solid var(--border-soft);
+}
+
+@media (max-width:640px){
+  .pt-grid{ grid-template-columns:repeat(18, 28px); }
+  .el-tile{ min-width:28px; }
+  .el-tile .sym{ font-size:10px; }
+  .orb-wrap{ width:190px; height:190px; }
+  .nucleus{ width:120px; height:120px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-vignette"></div>
+<div class="bg-elements" id="bgElements"></div>
+
+<svg class="labware left" width="70" height="180" viewBox="0 0 70 180">
+  <path d="M25 10 L25 100 Q25 140 45 140 Q45 140 45 100 L45 10" fill="none" stroke="#3ECF8E" stroke-opacity="0.25" stroke-width="2"/>
+  <path d="M27 90 Q35 138 43 90 Z" fill="#3ECF8E" fill-opacity="0.18"/>
+  <line x1="18" y1="10" x2="52" y2="10" stroke="#3ECF8E" stroke-opacity="0.25" stroke-width="2"/>
+  <circle class="bubble" cx="32" cy="100" r="2" style="animation-delay:0s"/>
+  <circle class="bubble" cx="38" cy="110" r="1.5" style="animation-delay:1.3s"/>
+  <circle class="bubble" cx="35" cy="95" r="1.8" style="animation-delay:2.6s"/>
+</svg>
+<svg class="labware right" width="70" height="220" viewBox="0 0 70 220">
+  <path d="M25 10 L25 100 Q25 140 45 140 Q45 140 45 100 L45 10" fill="none" stroke="#FF9B4D" stroke-opacity="0.2" stroke-width="2"/>
+  <path d="M27 95 Q35 138 43 95 Z" fill="#FF9B4D" fill-opacity="0.15"/>
+  <line x1="18" y1="10" x2="52" y2="10" stroke="#FF9B4D" stroke-opacity="0.2" stroke-width="2"/>
+  <circle class="bubble" cx="33" cy="105" r="2" style="animation-delay:0.7s"/>
+  <circle class="bubble" cx="37" cy="115" r="1.4" style="animation-delay:2s"/>
+</svg>
+
+<header>
+  <div class="logo" onclick="showHome()">
+    <div class="logo-mark">
+      <svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="3" fill="#3ECF8E"/><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#3ECF8E" stroke-width="1.4" opacity="0.6"/><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#5EC8FF" stroke-width="1.4" opacity="0.6" transform="rotate(60 15 15)"/><ellipse cx="15" cy="15" rx="13" ry="6" fill="none" stroke="#FF9B4D" stroke-width="1.4" opacity="0.6" transform="rotate(120 15 15)"/></svg>
+    </div>
+    <div class="logo-text">CHEMISTRY <span class="zone">ZONE</span></div>
+  </div>
+  <nav>
+    <button class="nav-link active" id="navHome" onclick="showHome()">Reactions</button>
+    <button class="nav-link" id="navPT" onclick="showPeriodicTable()">Periodic Table</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="homeView">
+    <div class="eyebrow">molecular search engine <span>&middot;</span> est. reaction db</div>
+
+    <div class="orb-wrap" id="orbWrap">
+      <div class="orbit o1"><div class="electron"></div></div>
+      <div class="orbit o2"><div class="electron"></div></div>
+      <div class="orbit o3"><div class="electron"></div></div>
+      <div class="nucleus" id="nucleusBtn" onclick="openSearch()">
+        <div class="ic">&#9883;</div>
+        <div class="lbl">SEARCH</div>
+        <div class="lbl2">REACTIONS</div>
+      </div>
+    </div>
+
+    <div class="search-bar-wrap" id="searchWrap">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="e.g. sodium + water, or combustion" autocomplete="off">
+        <button onclick="runSearch()" aria-label="Search">&#8594;</button>
+        <button class="search-close" onclick="closeSearch()" aria-label="Close">&#10005;</button>
+      </div>
+      <div class="search-hint">Try a compound, an element, or a reaction type</div>
+    </div>
+
+    <div class="chips" id="chipRow"></div>
+  </section>
+
+  <section class="results" id="resultsView">
+    <div class="results-head">
+      <h2 id="resultsTitle">Results</h2>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div class="card-grid" id="cardGrid"></div>
+  </section>
+
+  <section class="pt-page" id="ptView">
+    <div class="pt-head">
+      <h1>The periodic table</h1>
+      <p>Tap any element to see its data — and every reaction in the database that uses it.</p>
+    </div>
+    <div class="pt-legend" id="ptLegend"></div>
+    <div class="pt-grid" id="ptGrid"></div>
+  </section>
+</main>
+
+<footer>CHEMISTRY ZONE &mdash; a database of real chemical reactions</footer>
+
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-card" id="detailCard"></div>
+</div>
+
+<div class="pt-panel" id="ptPanel"></div>
+
+<script>
+/* ============ REACTION DATABASE ============ */
+const REACTIONS = [
+ {id:1, name:"Combustion of methane", kw:["methane","ch4","natural gas","combustion"], reactants:["CH4","O2"], cat:"Combustion", energy:"exo",
+  eq:"CH₄ + 2O₂ → CO₂ + 2H₂O", cond:"Requires a spark or flame to begin; self-sustaining once started.",
+  desc:"Methane burns completely in oxygen to form carbon dioxide and water, releasing a large amount of heat. This is the core reaction behind burning natural gas for heating and cooking.",
+  el:["C","H","O"]},
+ {id:2, name:"Combustion of propane", kw:["propane","c3h8","combustion","gas grill"], reactants:["C3H8","O2"], cat:"Combustion", energy:"exo",
+  eq:"C₃H₈ + 5O₂ → 3CO₂ + 4H₂O", cond:"Ignition source needed; burns with a blue flame when oxygen is sufficient.",
+  desc:"Propane combustion powers portable stoves, grills and heaters. Incomplete combustion (not enough oxygen) instead produces carbon monoxide and soot.",
+  el:["C","H","O"]},
+ {id:3, name:"Sodium and water", kw:["sodium","water","na","h2o","alkali metal"], reactants:["Na","H2O"], cat:"Displacement", energy:"exo",
+  eq:"2Na + 2H₂O → 2NaOH + H₂", cond:"Reacts violently at room temperature; the heat released can ignite the hydrogen gas.",
+  desc:"Sodium metal reacts vigorously with water, skating across the surface as it releases hydrogen gas and forms sodium hydroxide. A classic and dramatic alkali-metal demonstration.",
+  el:["Na","H","O"]},
+ {id:4, name:"Potassium and water", kw:["potassium","water","k","h2o","alkali metal"], reactants:["K","H2O"], cat:"Displacement", energy:"exo",
+  eq:"2K + 2H₂O → 2KOH + H₂", cond:"Even more vigorous than sodium; the hydrogen released usually ignites, burning lilac.",
+  desc:"Potassium sits below sodium in the alkali metal group and reacts even more violently with water, often catching fire on contact due to the heat of reaction.",
+  el:["K","H","O"]},
+ {id:5, name:"Hydrochloric acid + sodium hydroxide", kw:["hcl","naoh","neutralization","acid base","hydrochloric","sodium hydroxide"], reactants:["HCl","NaOH"], cat:"Acid–Base", energy:"exo",
+  eq:"HCl + NaOH → NaCl + H₂O", cond:"Occurs readily at room temperature in aqueous solution.",
+  desc:"A textbook neutralization: a strong acid and a strong base combine to form table salt and water. The reaction releases heat and drives the pH toward neutral.",
+  el:["H","Cl","Na","O"]},
+ {id:6, name:"Sulfuric acid + sodium hydroxide", kw:["h2so4","naoh","sulfuric acid","neutralization"], reactants:["H2SO4","NaOH"], cat:"Acid–Base", energy:"exo",
+  eq:"H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O", cond:"Exothermic; proceeds in aqueous solution at room temperature.",
+  desc:"Sulfuric acid is diprotic, so it takes two equivalents of sodium hydroxide to fully neutralize it, producing sodium sulfate and water.",
+  el:["H","S","O","Na"]},
+ {id:7, name:"Zinc + hydrochloric acid", kw:["zinc","hcl","hydrochloric acid","zn"], reactants:["Zn","HCl"], cat:"Displacement", energy:"exo",
+  eq:"Zn + 2HCl → ZnCl₂ + H₂", cond:"Fizzes at room temperature; rate increases with acid concentration or heat.",
+  desc:"Zinc metal displaces hydrogen from hydrochloric acid, a standard lab method for generating hydrogen gas, visible as steady bubbling at the metal surface.",
+  el:["Zn","H","Cl"]},
+ {id:8, name:"Iron + copper sulfate", kw:["iron","copper sulfate","fe","cuso4","displacement"], reactants:["Fe","CuSO4"], cat:"Displacement", energy:"exo",
+  eq:"Fe + CuSO₄ → FeSO₄ + Cu", cond:"Occurs spontaneously in aqueous solution at room temperature.",
+  desc:"Iron is more reactive than copper, so it displaces copper from solution. A grey iron nail dipped in blue copper sulfate slowly grows a reddish copper coating.",
+  el:["Fe","Cu","S","O"]},
+ {id:9, name:"Silver nitrate + sodium chloride", kw:["silver nitrate","sodium chloride","agno3","nacl","precipitation"], reactants:["AgNO3","NaCl"], cat:"Precipitation", energy:"exo",
+  eq:"AgNO₃ + NaCl → AgCl↓ + NaNO₃", cond:"Instant reaction at room temperature in aqueous solution.",
+  desc:"Mixing these two clear solutions instantly produces a thick white precipitate of silver chloride, one of the most common precipitation demonstrations in chemistry.",
+  el:["Ag","N","O","Na","Cl"]},
+ {id:10, name:"Barium chloride + sodium sulfate", kw:["barium chloride","sodium sulfate","bacl2","na2so4","precipitation"], reactants:["BaCl2","Na2SO4"], cat:"Precipitation", energy:"exo",
+  eq:"BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl", cond:"Instant precipitation at room temperature.",
+  desc:"Barium ions and sulfate ions combine to form insoluble barium sulfate, a dense white precipitate. This reaction is used as a qualitative test for sulfate ions.",
+  el:["Ba","Cl","Na","S","O"]},
+ {id:11, name:"Thermal decomposition of calcium carbonate", kw:["calcium carbonate","limestone","caco3","decomposition"], reactants:["CaCO3"], cat:"Decomposition", energy:"endo",
+  eq:"CaCO₃ →(Δ) CaO + CO₂", cond:"Requires strong heating, above roughly 840°C (thermal decomposition).",
+  desc:"Heating limestone breaks it down into quicklime and carbon dioxide gas. This industrial reaction is the basis of cement and lime production worldwide.",
+  el:["Ca","C","O"]},
+ {id:12, name:"Decomposition of hydrogen peroxide", kw:["hydrogen peroxide","h2o2","catalase","decomposition","manganese dioxide"], reactants:["H2O2"], cat:"Decomposition", energy:"exo",
+  eq:"2H₂O₂ →(MnO₂) 2H₂O + O₂", cond:"Sped up dramatically by a catalyst such as manganese dioxide or the enzyme catalase.",
+  desc:"Hydrogen peroxide slowly breaks down into water and oxygen on its own, but a catalyst speeds this up enormously — the basis of the classic 'elephant toothpaste' demo.",
+  el:["H","O","Mn"]},
+ {id:13, name:"Decomposition of potassium chlorate", kw:["potassium chlorate","kclo3","decomposition","oxygen"], reactants:["KClO3"], cat:"Decomposition", energy:"endo",
+  eq:"2KClO₃ →(Δ) 2KCl + 3O₂", cond:"Requires heat; a manganese dioxide catalyst lowers the required temperature.",
+  desc:"Heating potassium chlorate releases oxygen gas, historically used as a simple laboratory method for generating O₂.",
+  el:["K","Cl","O"]},
+ {id:14, name:"Haber process", kw:["haber","ammonia","nitrogen","hydrogen","nh3","synthesis"], reactants:["N2","H2"], cat:"Synthesis", energy:"exo",
+  eq:"N₂ + 3H₂ ⇌ 2NH₃", cond:"High pressure (~200 atm), moderate heat (~450°C) and an iron catalyst.",
+  desc:"The industrial process that fixes atmospheric nitrogen into ammonia for fertilizer production, feeding a large share of the world's population.",
+  el:["N","H"]},
+ {id:15, name:"Formation of water", kw:["hydrogen","oxygen","water","h2","o2","synthesis"], reactants:["H2","O2"], cat:"Synthesis", energy:"exo",
+  eq:"2H₂ + O₂ → 2H₂O", cond:"Explosive when ignited; hydrogen and oxygen mixtures are highly flammable.",
+  desc:"The direct combination of hydrogen and oxygen gas is intensely exothermic — this reaction powers rocket engines and gave the Hindenburg disaster its name.",
+  el:["H","O"]},
+ {id:16, name:"Combustion of carbon", kw:["carbon","charcoal","coal","combustion","co2"], reactants:["C","O2"], cat:"Combustion", energy:"exo",
+  eq:"C + O₂ → CO₂", cond:"Requires ignition temperature; glows red-hot as it burns.",
+  desc:"Carbon burning in excess oxygen produces carbon dioxide, the basic reaction behind burning coal or charcoal for heat.",
+  el:["C","O"]},
+ {id:17, name:"Photosynthesis", kw:["photosynthesis","plants","glucose","co2","sunlight"], reactants:["CO2","H2O"], cat:"Biological", energy:"endo",
+  eq:"6CO₂ + 6H₂O →(light) C₆H₁₂O₆ + 6O₂", cond:"Requires light energy and chlorophyll; occurs in plant chloroplasts.",
+  desc:"Plants capture light energy to convert carbon dioxide and water into glucose and oxygen, the foundation of nearly all life on Earth.",
+  el:["C","O","H"]},
+ {id:18, name:"Cellular respiration", kw:["respiration","glucose","energy","breathing","metabolism"], reactants:["C6H12O6","O2"], cat:"Biological", energy:"exo",
+  eq:"C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O", cond:"Occurs continuously inside living cells, mainly in the mitochondria.",
+  desc:"Cells break down glucose with oxygen to release usable energy — essentially the reverse of photosynthesis, and how your body powers itself.",
+  el:["C","H","O"]},
+ {id:19, name:"Rusting of iron", kw:["rust","iron","fe2o3","oxidation","corrosion"], reactants:["Fe","O2"], cat:"Redox", energy:"exo",
+  eq:"4Fe + 3O₂ → 2Fe₂O₃", cond:"Slow reaction at room temperature; sped up by moisture and salt.",
+  desc:"Iron slowly oxidizes in the presence of oxygen and water to form reddish-brown iron oxide, better known as rust — a costly, ongoing redox reaction worldwide.",
+  el:["Fe","O"]},
+ {id:20, name:"Burning magnesium", kw:["magnesium","mgo","burning","bright light","synthesis"], reactants:["Mg","O2"], cat:"Synthesis", energy:"exo",
+  eq:"2Mg + O₂ → 2MgO", cond:"Burns with an intensely bright white flame once ignited; never look directly at it.",
+  desc:"Magnesium ribbon burns brilliantly in air, producing white magnesium oxide smoke. The dazzling light is used in flares and old-style camera flashes.",
+  el:["Mg","O"]},
+ {id:21, name:"Thermite reaction", kw:["thermite","aluminum","iron oxide","al","fe2o3"], reactants:["Al","Fe2O3"], cat:"Redox", energy:"exo",
+  eq:"2Al + Fe₂O₃ → Al₂O₃ + 2Fe", cond:"Needs a high-temperature ignition source (like a magnesium strip); once started, self-sustains at over 2000°C.",
+  desc:"One of the most exothermic reactions commonly demonstrated: aluminum rips oxygen away from iron oxide, releasing molten iron and enough heat to weld rail tracks.",
+  el:["Al","Fe","O"]},
+ {id:22, name:"Esterification (making an ester)", kw:["ester","acetic acid","ethanol","vinegar smell","organic"], reactants:["CH3COOH","C2H5OH"], cat:"Organic Chemistry", energy:"neutral",
+  eq:"CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O", cond:"Needs an acid catalyst (e.g. concentrated H₂SO₄) and gentle heating.",
+  desc:"An acid and an alcohol combine to form an ester and water — the reaction responsible for many fruity smells and flavorings.",
+  el:["C","H","O"]},
+ {id:23, name:"Ammonia + hydrochloric acid", kw:["ammonia","hydrochloric acid","nh3","hcl","neutralization"], reactants:["NH3","HCl"], cat:"Acid–Base", energy:"exo",
+  eq:"HCl + NH₃ → NH₄Cl", cond:"Reacts instantly, even as gases — producing visible white smoke where the fumes meet.",
+  desc:"Ammonia gas and hydrochloric acid fumes react directly in mid-air to form fine white ammonium chloride smoke, a striking gas-phase neutralization.",
+  el:["H","Cl","N"]},
+ {id:24, name:"Electrolysis of water", kw:["electrolysis","water splitting","hydrogen","oxygen","h2o"], reactants:["H2O"], cat:"Decomposition", energy:"endo",
+  eq:"2H₂O →(electricity) 2H₂ + O₂", cond:"Requires an electric current and usually an electrolyte to conduct.",
+  desc:"Passing electricity through water splits it into hydrogen and oxygen gas at opposite electrodes — twice as much hydrogen forms as oxygen, matching the formula of water.",
+  el:["H","O"]},
+ {id:25, name:"Alcoholic fermentation", kw:["fermentation","yeast","ethanol","glucose","brewing"], reactants:["C6H12O6"], cat:"Organic Chemistry", energy:"exo",
+  eq:"C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂", cond:"Carried out by yeast in the absence of oxygen (anaerobic).",
+  desc:"Yeast converts sugar into ethanol and carbon dioxide without oxygen — the reaction behind brewing, winemaking, and bread rising.",
+  el:["C","H","O"]},
+ {id:26, name:"Baking soda + vinegar", kw:["baking soda","vinegar","volcano","nahco3","ch3cooh"], reactants:["CH3COOH","NaHCO3"], cat:"Acid–Base", energy:"endo",
+  eq:"CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂", cond:"Reacts instantly at room temperature; fizzes vigorously.",
+  desc:"The classic kitchen-science volcano: acetic acid in vinegar reacts with sodium bicarbonate to release a rush of carbon dioxide bubbles.",
+  el:["C","H","O","Na"]},
+ {id:27, name:"Copper + silver nitrate", kw:["copper","silver nitrate","cu","agno3","displacement"], reactants:["Cu","AgNO3"], cat:"Displacement", energy:"exo",
+  eq:"Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag", cond:"Occurs spontaneously in solution at room temperature; may take minutes to hours.",
+  desc:"Copper is more reactive than silver, so it displaces silver from solution, growing delicate silver crystals on the copper's surface as the solution turns blue.",
+  el:["Cu","Ag","N","O"]},
+ {id:28, name:"Lead nitrate + potassium iodide", kw:["lead nitrate","potassium iodide","pb","ki","golden rain","precipitation"], reactants:["Pb(NO3)2","KI"], cat:"Precipitation", energy:"exo",
+  eq:"Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃", cond:"Instant at room temperature; the precipitate can be redissolved on heating and recrystallized on cooling.",
+  desc:"Known as the 'golden rain' experiment, this reaction produces a brilliant yellow precipitate of lead iodide that shimmers as it settles.",
+  el:["Pb","N","O","K","I"]},
+ {id:29, name:"Combustion of ethanol", kw:["ethanol","alcohol","combustion","c2h5oh"], reactants:["C2H5OH","O2"], cat:"Combustion", energy:"exo",
+  eq:"C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O", cond:"Burns with a pale blue flame; needs an ignition source.",
+  desc:"Ethanol burns cleanly in air, which is why it's used as a biofuel and in spirit burners — a nearly soot-free combustion reaction.",
+  el:["C","H","O"]},
+ {id:30, name:"Magnesium burning in carbon dioxide", kw:["magnesium","carbon dioxide","co2","mg","redox"], reactants:["Mg","CO2"], cat:"Redox", energy:"exo",
+  eq:"2Mg + CO₂ → 2MgO + C", cond:"Requires the magnesium to already be burning; continues even without external oxygen.",
+  desc:"Burning magnesium is so reactive it can strip oxygen straight out of carbon dioxide, meaning a CO₂ fire extinguisher cannot put out a magnesium fire.",
+  el:["Mg","C","O"]},
+ {id:31, name:"Iron + sulfur", kw:["iron","sulfur","fes","synthesis","heat"], reactants:["Fe","S"], cat:"Synthesis", energy:"exo",
+  eq:"Fe + S →(Δ) FeS", cond:"Needs an initial heat source; once started, the reaction glows and sustains itself.",
+  desc:"Powdered iron and sulfur combine directly when heated, forming iron sulfide — a simple but classic demonstration that a compound's properties differ entirely from its elements.",
+  el:["Fe","S"]},
+ {id:32, name:"Zinc oxide + sulfuric acid", kw:["zinc oxide","sulfuric acid","zno","h2so4","neutralization"], reactants:["ZnO","H2SO4"], cat:"Acid–Base", energy:"exo",
+  eq:"ZnO + H₂SO₄ → ZnSO₄ + H₂O", cond:"Proceeds readily at room temperature in aqueous solution.",
+  desc:"A metal oxide neutralizes an acid to form a salt and water, following the same pattern as any base reacting with an acid.",
+  el:["Zn","O","H","S"]},
+ {id:33, name:"Bromine + aluminum", kw:["bromine","aluminum","al","br2","halogen","redox"], reactants:["Al","Br2"], cat:"Redox", energy:"exo",
+  eq:"2Al + 3Br₂ → 2AlBr₃", cond:"Reacts vigorously at room temperature, often glowing and giving off orange fumes.",
+  desc:"Aluminum foil reacts dramatically with liquid bromine in a fast, glowing redox reaction, forming aluminum bromide.",
+  el:["Al","Br"]},
+ {id:34, name:"Bromine test for alkenes", kw:["ethene","bromine water","alkene","addition reaction","unsaturation"], reactants:["C2H4","Br2"], cat:"Organic Chemistry", energy:"exo",
+  eq:"C₂H₄ + Br₂ → C₂H₄Br₂", cond:"Occurs instantly at room temperature when bromine water is shaken with the alkene.",
+  desc:"Bromine adds directly across the carbon-carbon double bond of ethene. The orange bromine water turns colourless, a standard test for unsaturation in organic molecules.",
+  el:["C","H","Br"]},
+ {id:35, name:"Saponification (soap making)", kw:["soap","fat","saponification","glycerol","sodium hydroxide"], reactants:["NaOH"], cat:"Organic Chemistry", energy:"exo",
+  eq:"Fat + 3NaOH → Soap + Glycerol", cond:"Requires heating the fat or oil with concentrated sodium hydroxide.",
+  desc:"Animal fats or vegetable oils react with a strong base to break the ester bonds, producing soap molecules and glycerol — the reaction behind traditional soap making.",
+  el:["Na","O","H","C"]},
+ {id:36, name:"Chlorination of methane", kw:["ch4","cl2","methane chlorine","chloromethane","halogenation","substitution"], reactants:["CH4","Cl2"], cat:"Organic Chemistry", energy:"exo",
+  eq:"CH₄ + Cl₂ →(UV light) CH₃Cl + HCl", cond:"Needs ultraviolet light or strong heat to start; proceeds by a free-radical chain mechanism and can continue substituting further hydrogens.",
+  desc:"Methane and chlorine don't react in the dark, but under UV light a hydrogen atom is substituted by chlorine, producing chloromethane and hydrogen chloride. Further substitution can give CH₂Cl₂, CHCl₃ and CCl₄.",
+  el:["C","H","Cl"]},
+ {id:37, name:"Chlorination of ethane", kw:["c2h6","cl2","ethane chlorine","chloroethane","halogenation"], reactants:["C2H6","Cl2"], cat:"Organic Chemistry", energy:"exo",
+  eq:"C₂H₆ + Cl₂ →(UV light) C₂H₅Cl + HCl", cond:"Requires UV light to initiate the free-radical chain reaction.",
+  desc:"Ethane undergoes the same type of free-radical substitution as methane, swapping a hydrogen for chlorine to form chloroethane.",
+  el:["C","H","Cl"]},
+ {id:38, name:"Bromination of methane", kw:["ch4","br2","methane bromine","bromomethane","halogenation"], reactants:["CH4","Br2"], cat:"Organic Chemistry", energy:"exo",
+  eq:"CH₄ + Br₂ →(UV light) CH₃Br + HBr", cond:"Needs UV light; proceeds more slowly than chlorination because bromine is less reactive.",
+  desc:"Bromine substitutes a hydrogen atom on methane under UV light, forming bromomethane. The same free-radical mechanism as chlorination, just slower.",
+  el:["C","H","Br"]},
+ {id:39, name:"Hydrogenation of ethene", kw:["ethene","hydrogen","addition","c2h4","h2","margarine"], reactants:["C2H4","H2"], cat:"Organic Chemistry", energy:"exo",
+  eq:"C₂H₄ + H₂ →(Ni catalyst) C₂H₆", cond:"Needs a nickel or platinum catalyst and moderate heat/pressure.",
+  desc:"Hydrogen adds across the double bond of ethene to make ethane. This is the industrial reaction used to turn liquid vegetable oils into solid margarine.",
+  el:["C","H"]},
+ {id:40, name:"Hydration of ethene", kw:["ethene","steam","ethanol production","c2h4","h2o"], reactants:["C2H4","H2O"], cat:"Organic Chemistry", energy:"exo",
+  eq:"C₂H₄ + H₂O →(H3PO4) C₂H₅OH", cond:"Requires steam, high pressure, and a phosphoric acid catalyst.",
+  desc:"Ethene reacts directly with steam to produce ethanol, the main industrial route for manufacturing ethanol on a large scale.",
+  el:["C","H","O"]},
+ {id:41, name:"Cracking of alkanes", kw:["cracking","decane","octane","alkane breakdown","petroleum"], reactants:["C10H22"], cat:"Decomposition", energy:"endo",
+  eq:"C₁₀H₂₂ →(Δ, catalyst) C₈H₁₈ + C₂H₄", cond:"Requires high temperature and often a zeolite catalyst.",
+  desc:"Long-chain alkanes from crude oil are broken down into smaller, more useful alkanes and alkenes — a key refinery process that supplies fuel and raw material for plastics.",
+  el:["C","H"]},
+ {id:42, name:"Combustion of hydrogen sulfide", kw:["hydrogen sulfide","h2s","rotten egg gas","combustion"], reactants:["H2S","O2"], cat:"Combustion", energy:"exo",
+  eq:"2H₂S + 3O₂ → 2SO₂ + 2H₂O", cond:"Needs an ignition source; the rotten-egg smell disappears as it burns.",
+  desc:"Hydrogen sulfide, known for its rotten-egg odor, burns in oxygen to give sulfur dioxide and water.",
+  el:["H","S","O"]},
+ {id:43, name:"Nitric acid + copper", kw:["nitric acid","copper","hno3","cu","brown gas"], reactants:["Cu","HNO3"], cat:"Redox", energy:"exo",
+  eq:"Cu + 4HNO₃ → Cu(NO₃)₂ + 2NO₂ + 2H₂O", cond:"Concentrated nitric acid reacts readily at room temperature, releasing brown fumes.",
+  desc:"Concentrated nitric acid oxidizes copper metal, producing a blue copper nitrate solution and choking brown nitrogen dioxide gas.",
+  el:["Cu","H","N","O"]},
+ {id:44, name:"Reaction of calcium with water", kw:["calcium","water","ca","h2o"], reactants:["Ca","H2O"], cat:"Displacement", energy:"exo",
+  eq:"Ca + 2H₂O → Ca(OH)₂ + H₂", cond:"Reacts steadily at room temperature, more gently than sodium or potassium.",
+  desc:"Calcium reacts with water more slowly and less violently than the alkali metals, producing calcium hydroxide (limewater) and a stream of hydrogen bubbles.",
+  el:["Ca","H","O"]},
+ {id:45, name:"Reaction of magnesium with dilute acid", kw:["magnesium","hydrochloric acid","mg","hcl"], reactants:["Mg","HCl"], cat:"Displacement", energy:"exo",
+  eq:"Mg + 2HCl → MgCl₂ + H₂", cond:"Reacts quickly at room temperature, faster than zinc or iron with the same acid.",
+  desc:"Magnesium reacts briskly with dilute hydrochloric acid, fizzing steadily as it produces magnesium chloride and hydrogen gas.",
+  el:["Mg","H","Cl"]},
+ {id:46, name:"Limewater test for carbon dioxide", kw:["limewater","carbon dioxide","calcium hydroxide","co2 test"], reactants:["Ca(OH)2","CO2"], cat:"Precipitation", energy:"exo",
+  eq:"Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O", cond:"Happens immediately at room temperature when CO₂ gas is bubbled through limewater.",
+  desc:"Carbon dioxide turns clear limewater cloudy by forming a fine white precipitate of calcium carbonate — the standard school test for identifying CO₂.",
+  el:["Ca","O","H","C"]},
+ {id:47, name:"Sodium carbonate + hydrochloric acid", kw:["sodium carbonate","hydrochloric acid","na2co3","hcl","fizzing"], reactants:["Na2CO3","HCl"], cat:"Acid–Base", energy:"exo",
+  eq:"Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂", cond:"Reacts immediately at room temperature, fizzing as carbon dioxide escapes.",
+  desc:"A carbonate reacting with an acid always releases carbon dioxide gas alongside a salt and water — a quick way to identify carbonates.",
+  el:["Na","C","O","H","Cl"]},
+ {id:48, name:"Ammonium chloride + sodium hydroxide", kw:["ammonium chloride","sodium hydroxide","nh4cl","naoh","ammonia test"], reactants:["NH4Cl","NaOH"], cat:"Acid–Base", energy:"endo",
+  eq:"NH₄Cl + NaOH →(Δ) NaCl + H₂O + NH₃", cond:"Needs gentle warming to release the ammonia gas, detectable by its sharp smell and turning damp red litmus blue.",
+  desc:"Warming an ammonium salt with sodium hydroxide releases ammonia gas — the standard laboratory test for confirming the presence of ammonium ions.",
+  el:["N","H","Cl","Na","O"]},
+ {id:49, name:"Displacement of bromine by chlorine", kw:["chlorine","potassium bromide","kbr","cl2","halogen displacement"], reactants:["Cl2","KBr"], cat:"Displacement", energy:"exo",
+  eq:"Cl₂ + 2KBr → 2KCl + Br₂", cond:"Reacts readily at room temperature in aqueous solution; the solution turns orange as bromine forms.",
+  desc:"Chlorine is more reactive than bromine, so it displaces bromide ions from solution, turning the colourless solution orange-brown as free bromine is released.",
+  el:["Cl","K","Br"]},
+ {id:50, name:"Displacement of iodine by chlorine", kw:["chlorine","potassium iodide","ki","cl2","halogen displacement"], reactants:["Cl2","KI"], cat:"Displacement", energy:"exo",
+  eq:"Cl₂ + 2KI → 2KCl + I₂", cond:"Reacts readily at room temperature; the solution darkens as iodine is released.",
+  desc:"Chlorine, the most reactive common halogen, displaces iodide ions from solution, producing a brown solution of free iodine.",
+  el:["Cl","K","I"]},
+ {id:51, name:"Reaction of sodium with chlorine", kw:["sodium","chlorine","na","cl2","synthesis","table salt"], reactants:["Na","Cl2"], cat:"Synthesis", energy:"exo",
+  eq:"2Na + Cl₂ → 2NaCl", cond:"Reacts vigorously, often with visible flame, once the metal is heated slightly to start it.",
+  desc:"Sodium metal burns in chlorine gas with a bright yellow-orange flame, forming ordinary table salt directly from its elements.",
+  el:["Na","Cl"]},
+ {id:52, name:"Reaction of hydrogen with chlorine", kw:["hydrogen","chlorine","h2","cl2","hcl gas"], reactants:["H2","Cl2"], cat:"Synthesis", energy:"exo",
+  eq:"H₂ + Cl₂ →(light) 2HCl", cond:"Explosive in bright light or sunlight; proceeds slowly and safely in the dark.",
+  desc:"Hydrogen and chlorine combine explosively when exposed to bright light, forming hydrogen chloride gas, which dissolves in water to give hydrochloric acid.",
+  el:["H","Cl"]},
+ {id:53, name:"Aluminium + hydrochloric acid", kw:["aluminium","aluminum","hydrochloric acid","al","hcl"], reactants:["Al","HCl"], cat:"Displacement", energy:"exo",
+  eq:"2Al + 6HCl → 2AlCl₃ + 3H₂", cond:"Reacts steadily at room temperature once the metal's oxide layer is broken through.",
+  desc:"Aluminium reacts with hydrochloric acid to give aluminium chloride and hydrogen gas, though it starts slowly due to a thin protective oxide coating.",
+  el:["Al","H","Cl"]},
+ {id:54, name:"Copper oxide + sulfuric acid", kw:["copper oxide","sulfuric acid","cuo","h2so4","blue solution"], reactants:["CuO","H2SO4"], cat:"Acid–Base", energy:"exo",
+  eq:"CuO + H₂SO₄ → CuSO₄ + H₂O", cond:"Reacts on gentle warming; the black solid dissolves to leave a characteristic blue solution.",
+  desc:"Black copper oxide neutralizes sulfuric acid to form blue copper sulfate solution and water, a standard reaction for preparing soluble copper salts.",
+  el:["Cu","O","H","S"]},
+ {id:55, name:"Iron + dilute sulfuric acid", kw:["iron","sulfuric acid","fe","h2so4"], reactants:["Fe","H2SO4"], cat:"Displacement", energy:"exo",
+  eq:"Fe + H₂SO₄ → FeSO₄ + H₂", cond:"Reacts steadily at room temperature, faster with warming.",
+  desc:"Iron displaces hydrogen from dilute sulfuric acid, producing pale green iron(II) sulfate solution and hydrogen gas.",
+  el:["Fe","H","S","O"]},
+ {id:56, name:"Combustion of octane", kw:["octane","petrol","gasoline","c8h18","combustion"], reactants:["C8H18","O2"], cat:"Combustion", energy:"exo",
+  eq:"2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O", cond:"Needs a spark to ignite; the reaction that powers a petrol engine.",
+  desc:"Octane, a major component of petrol, burns in air to release the energy that drives internal combustion engines.",
+  el:["C","H","O"]},
+ {id:57, name:"Decomposition of ammonium dichromate", kw:["ammonium dichromate","volcano","decomposition","fireworks"], reactants:["(NH4)2Cr2O7"], cat:"Decomposition", energy:"exo",
+  eq:"(NH₄)₂Cr₂O₇ →(Δ) N₂ + 4H₂O + Cr₂O₃", cond:"Self-sustaining once ignited with a small flame; produces sparks and a glowing green ash volcano.",
+  desc:"This striking demonstration decomposes an orange solid into nitrogen gas, steam, and fluffy green chromium(III) oxide, resembling a miniature erupting volcano.",
+  el:["N","H","Cr","O"]},
+ {id:58, name:"Reaction of zinc with sulfur", kw:["zinc","sulfur","zns","synthesis"], reactants:["Zn","S"], cat:"Synthesis", energy:"exo",
+  eq:"Zn + S →(Δ) ZnS", cond:"Needs an initial heat source; reacts with a bright flash once started.",
+  desc:"Powdered zinc and sulfur combine in a fast, bright reaction when ignited, forming zinc sulfide.",
+  el:["Zn","S"]},
+ {id:59, name:"Fehling's test for aldehydes", kw:["fehling","aldehyde","glucose test","copper reduction"], reactants:["C6H12O6","CuSO4"], cat:"Organic Chemistry", energy:"exo",
+  eq:"RCHO + 2Cu²⁺ + 5OH⁻ →(Δ) RCOO⁻ + Cu₂O↓ + 3H₂O", cond:"Requires gentle heating of the sample with Fehling's solution.",
+  desc:"Aldehydes reduce the blue copper(II) complex in Fehling's solution to a brick-red precipitate of copper(I) oxide, a classic test used to detect reducing sugars.",
+  el:["C","H","O","Cu"]},
+ {id:60, name:"Combustion of hydrogen in air", kw:["hydrogen","pop test","squeaky pop","h2","combustion"], reactants:["H2","O2"], cat:"Combustion", energy:"exo",
+  eq:"2H₂ + O₂ → 2H₂O", cond:"Ignites instantly with a lit splint, producing a characteristic squeaky pop.",
+  desc:"A lit splint held to a test tube of hydrogen gas ignites it with a sharp 'pop' — the standard laboratory test for confirming hydrogen gas.",
+  el:["H","O"]}
+];
+
+const CATEGORIES = ["Combustion","Acid–Base","Precipitation","Decomposition","Synthesis","Displacement","Redox","Organic Chemistry","Biological"];
+
+/* ============ PERIODIC TABLE DATA ============ */
+const CAT_COLOR = {
+  "alkali metal":"#FF9B4D", "alkaline earth metal":"#FFC46B", "transition metal":"#5EC8FF",
+  "post-transition metal":"#7FE0C4", "metalloid":"#C792EA", "nonmetal":"#3ECF8E",
+  "halogen":"#FF6B6B", "noble gas":"#6FE7DD", "lanthanide":"#F5A3C7", "actinide":"#E08585", "unknown":"#6B8079"
+};
+function el(n,sym,name,mass,cat,row,col){ return {n,sym,name,mass,cat,row,col}; }
+const ELEMENTS = [
+ el(1,"H","Hydrogen","1.008","nonmetal",1,1), el(2,"He","Helium","4.003","noble gas",1,18),
+ el(3,"Li","Lithium","6.94","alkali metal",2,1), el(4,"Be","Beryllium","9.012","alkaline earth metal",2,2),
+ el(5,"B","Boron","10.81","metalloid",2,13), el(6,"C","Carbon","12.011","nonmetal",2,14),
+ el(7,"N","Nitrogen","14.007","nonmetal",2,15), el(8,"O","Oxygen","15.999","nonmetal",2,16),
+ el(9,"F","Fluorine","18.998","halogen",2,17), el(10,"Ne","Neon","20.180","noble gas",2,18),
+ el(11,"Na","Sodium","22.990","alkali metal",3,1), el(12,"Mg","Magnesium","24.305","alkaline earth metal",3,2),
+ el(13,"Al","Aluminium","26.982","post-transition metal",3,13), el(14,"Si","Silicon","28.085","metalloid",3,14),
+ el(15,"P","Phosphorus","30.974","nonmetal",3,15), el(16,"S","Sulfur","32.06","nonmetal",3,16),
+ el(17,"Cl","Chlorine","35.45","halogen",3,17), el(18,"Ar","Argon","39.948","noble gas",3,18),
+ el(19,"K","Potassium","39.098","alkali metal",4,1), el(20,"Ca","Calcium","40.078","alkaline earth metal",4,2),
+ el(21,"Sc","Scandium","44.956","transition metal",4,3), el(22,"Ti","Titanium","47.867","transition metal",4,4),
+ el(23,"V","Vanadium","50.942","transition metal",4,5), el(24,"Cr","Chromium","51.996","transition metal",4,6),
+ el(25,"Mn","Manganese","54.938","transition metal",4,7), el(26,"Fe","Iron","55.845","transition metal",4,8),
+ el(27,"Co","Cobalt","58.933","transition metal",4,9), el(28,"Ni","Nickel","58.693","transition metal",4,10),
+ el(29,"Cu","Copper","63.546","transition metal",4,11), el(30,"Zn","Zinc","65.38","transition metal",4,12),
+ el(31,"Ga","Gallium","69.723","post-transition metal",4,13), el(32,"Ge","Germanium","72.630","metalloid",4,14),
+ el(33,"As","Arsenic","74.922","metalloid",4,15), el(34,"Se","Selenium","78.971","nonmetal",4,16),
+ el(35,"Br","Bromine","79.904","halogen",4,17), el(36,"Kr","Krypton","83.798","noble gas",4,18),
+ el(37,"Rb","Rubidium","85.468","alkali metal",5,1), el(38,"Sr","Strontium","87.62","alkaline earth metal",5,2),
+ el(39,"Y","Yttrium","88.906","transition metal",5,3), el(40,"Zr","Zirconium","91.224","transition metal",5,4),
+ el(41,"Nb","Niobium","92.906","transition metal",5,5), el(42,"Mo","Molybdenum","95.95","transition metal",5,6),
+ el(43,"Tc","Technetium","[98]","transition metal",5,7), el(44,"Ru","Ruthenium","101.07","transition metal",5,8),
+ el(45,"Rh","Rhodium","102.906","transition metal",5,9), el(46,"Pd","Palladium","106.42","transition metal",5,10),
+ el(47,"Ag","Silver","107.868","transition metal",5,11), el(48,"Cd","Cadmium","112.414","transition metal",5,12),
+ el(49,"In","Indium","114.818","post-transition metal",5,13), el(50,"Sn","Tin","118.710","post-transition metal",5,14),
+ el(51,"Sb","Antimony","121.760","metalloid",5,15), el(52,"Te","Tellurium","127.60","metalloid",5,16),
+ el(53,"I","Iodine","126.904","halogen",5,17), el(54,"Xe","Xenon","131.293","noble gas",5,18),
+ el(55,"Cs","Caesium","132.905","alkali metal",6,1), el(56,"Ba","Barium","137.327","alkaline earth metal",6,2),
+ el(57,"La","Lanthanum","138.905","lanthanide",9,4), el(58,"Ce","Cerium","140.116","lanthanide",9,5),
+ el(59,"Pr","Praseodymium","140.908","lanthanide",9,6), el(60,"Nd","Neodymium","144.242","lanthanide",9,7),
+ el(61,"Pm","Promethium","[145]","lanthanide",9,8), el(62,"Sm","Samarium","150.36","lanthanide",9,9),
+ el(63,"Eu","Europium","151.964","lanthanide",9,10), el(64,"Gd","Gadolinium","157.25","lanthanide",9,11),
+ el(65,"Tb","Terbium","158.925","lanthanide",9,12), el(66,"Dy","Dysprosium","162.500","lanthanide",9,13),
+ el(67,"Ho","Holmium","164.930","lanthanide",9,14), el(68,"Er","Erbium","167.259","lanthanide",9,15),
+ el(69,"Tm","Thulium","168.934","lanthanide",9,16), el(70,"Yb","Ytterbium","173.045","lanthanide",9,17),
+ el(71,"Lu","Lutetium","174.967","lanthanide",9,18),
+ el(72,"Hf","Hafnium","178.49","transition metal",6,4), el(73,"Ta","Tantalum","180.948","transition metal",6,5),
+ el(74,"W","Tungsten","183.84","transition metal",6,6), el(75,"Re","Rhenium","186.207","transition metal",6,7),
+ el(76,"Os","Osmium","190.23","transition metal",6,8), el(77,"Ir","Iridium","192.217","transition metal",6,9),
+ el(78,"Pt","Platinum","195.084","transition metal",6,10), el(79,"Au","Gold","196.967","transition metal",6,11),
+ el(80,"Hg","Mercury","200.592","transition metal",6,12), el(81,"Tl","Thallium","204.38","post-transition metal",6,13),
+ el(82,"Pb","Lead","207.2","post-transition metal",6,14), el(83,"Bi","Bismuth","208.980","post-transition metal",6,15),
+ el(84,"Po","Polonium","[209]","metalloid",6,16), el(85,"At","Astatine","[210]","halogen",6,17),
+ el(86,"Rn","Radon","[222]","noble gas",6,18),
+ el(87,"Fr","Francium","[223]","alkali metal",7,1), el(88,"Ra","Radium","[226]","alkaline earth metal",7,2),
+ el(89,"Ac","Actinium","[227]","actinide",10,4), el(90,"Th","Thorium","232.038","actinide",10,5),
+ el(91,"Pa","Protactinium","231.036","actinide",10,6), el(92,"U","Uranium","238.029","actinide",10,7),
+ el(93,"Np","Neptunium","[237]","actinide",10,8), el(94,"Pu","Plutonium","[244]","actinide",10,9),
+ el(95,"Am","Americium","[243]","actinide",10,10), el(96,"Cm","Curium","[247]","actinide",10,11),
+ el(97,"Bk","Berkelium","[247]","actinide",10,12), el(98,"Cf","Californium","[251]","actinide",10,13),
+ el(99,"Es","Einsteinium","[252]","actinide",10,14), el(100,"Fm","Fermium","[257]","actinide",10,15),
+ el(101,"Md","Mendelevium","[258]","actinide",10,16), el(102,"No","Nobelium","[259]","actinide",10,17),
+ el(103,"Lr","Lawrencium","[266]","actinide",10,18),
+ el(104,"Rf","Rutherfordium","[267]","transition metal",7,4), el(105,"Db","Dubnium","[268]","transition metal",7,5),
+ el(106,"Sg","Seaborgium","[269]","transition metal",7,6), el(107,"Bh","Bohrium","[270]","transition metal",7,7),
+ el(108,"Hs","Hassium","[269]","transition metal",7,8), el(109,"Mt","Meitnerium","[278]","unknown",7,9),
+ el(110,"Ds","Darmstadtium","[281]","unknown",7,10), el(111,"Rg","Roentgenium","[282]","unknown",7,11),
+ el(112,"Cn","Copernicium","[285]","unknown",7,12), el(113,"Nh","Nihonium","[286]","post-transition metal",7,13),
+ el(114,"Fl","Flerovium","[289]","post-transition metal",7,14), el(115,"Mc","Moscovium","[290]","post-transition metal",7,15),
+ el(116,"Lv","Livermorium","[293]","post-transition metal",7,16), el(117,"Ts","Tennessine","[294]","halogen",7,17),
+ el(118,"Og","Oganesson","[294]","noble gas",7,18)
+];
+
+/* ============ NAVIGATION ============ */
+function showHome(){
+  document.getElementById('homeView').style.display = 'flex';
+  document.getElementById('ptView').classList.remove('show');
+  document.getElementById('navHome').classList.add('active');
+  document.getElementById('navPT').classList.remove('active');
+  closeDetail(); closePtPanel();
+}
+function showPeriodicTable(){
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('resultsView').classList.remove('show');
+  document.getElementById('ptView').classList.add('show');
+  document.getElementById('navHome').classList.remove('active');
+  document.getElementById('navPT').classList.add('active');
+}
+
+/* ============ SEARCH ORB ============ */
+function openSearch(){
+  document.getElementById('searchWrap').classList.add('show');
+  document.getElementById('orbWrap').style.opacity = '0.35';
+  document.getElementById('orbWrap').style.pointerEvents = 'none';
+  setTimeout(()=>document.getElementById('searchInput').focus(), 100);
+}
+function closeSearch(){
+  document.getElementById('searchWrap').classList.remove('show');
+  document.getElementById('orbWrap').style.opacity = '1';
+  document.getElementById('orbWrap').style.pointerEvents = 'auto';
+  document.getElementById('searchInput').value = '';
+}
+document.getElementById('searchInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') runSearch();
+});
+
+function normFormula(t){
+  return t.replace(/^\d+/,'').toLowerCase().replace(/[^a-z0-9()]/g,'');
+}
+function runSearch(){
+  const raw = document.getElementById('searchInput').value.trim();
+  const q = raw.toLowerCase();
+  if(!q) return;
+  const terms = q.split(/[\s,+]+/).filter(Boolean);
+  const formulaTerms = terms.map(normFormula).filter(Boolean);
+
+  const scored = REACTIONS.map(r=>{
+    let score = 0;
+    const hay = (r.name + ' ' + r.kw.join(' ') + ' ' + r.cat).toLowerCase();
+    const reactantSet = r.reactants.map(normFormula);
+
+    if(hay.includes(q)) score += 5;
+    terms.forEach(t=>{ if(hay.includes(t)) score += 1; });
+
+    if(formulaTerms.length){
+      let matched = 0;
+      formulaTerms.forEach(ft=>{ if(reactantSet.includes(ft)) matched++; });
+      if(matched > 0){
+        score += matched * 20;
+        if(matched === formulaTerms.length && matched === reactantSet.length) score += 50;
+        else if(matched === formulaTerms.length) score += 25;
+      }
+    }
+    return {r, score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.r);
+
+  const best = scored.length ? [scored[0]] : [];
+  renderResults(best, `Best match for "${raw}"`);
+}
+
+function searchByCategory(cat, chipEl){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  if(chipEl) chipEl.classList.add('active');
+  const matches = REACTIONS.filter(r=>r.cat===cat);
+  renderResults(matches, cat);
+}
+
+function renderResults(list, title){
+  const view = document.getElementById('resultsView');
+  view.classList.add('show');
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('resultsCount').textContent = list.length + (list.length===1?' match':' matches');
+  const grid = document.getElementById('cardGrid');
+  if(list.length===0){
+    grid.innerHTML = '<div class="no-results">No reactions matched that search. Try an element name, a compound, or a category like "combustion".</div>';
+  } else {
+    grid.innerHTML = list.map(r=>`
+      <div class="rcard" onclick="openDetail(${r.id})">
+        <div class="rcard-top">
+          <div class="rcard-title">${r.name}</div>
+          <div class="badge ${r.energy}">${r.energy}</div>
+        </div>
+        <div class="rcard-cat">${r.cat}</div>
+        <div class="rcard-eq">${r.eq}</div>
+        <div class="rcard-desc">${r.desc.slice(0,110)}${r.desc.length>110?'&hellip;':''}</div>
+      </div>
+    `).join('');
+  }
+  view.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ============ CHIPS ============ */
+function buildChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML = CATEGORIES.map(c=>`<button class="chip" onclick="searchByCategory('${c}', this)">${c}</button>`).join('');
+}
+
+/* ============ DETAIL MODAL ============ */
+function openDetail(id){
+  const r = REACTIONS.find(x=>x.id===id);
+  if(!r) return;
+  const els = r.el.map(sym=>{
+    const e = ELEMENTS.find(x=>x.sym===sym);
+    return `<div class="mini-el" style="border-color:${CAT_COLOR[e.cat]}66; color:${CAT_COLOR[e.cat]}" onclick="showPeriodicTable(); event.stopPropagation(); openElement(${e.n})">${sym}</div>`;
+  }).join('');
+  document.getElementById('detailCard').innerHTML = `
+    <button class="detail-close" onclick="closeDetail()">&#10005;</button>
+    <div class="detail-badges">
+      <span class="badge ${r.energy}">${r.energy}</span>
+      <span class="badge neutral" style="background:rgba(160,210,195,0.1); color:var(--text-muted)">${r.cat}</span>
+    </div>
+    <h3>${r.name}</h3>
+    <div class="detail-eq">${r.eq}</div>
+    <div class="detail-row"><div class="k">What happens</div><div class="v">${r.desc}</div></div>
+    <div class="detail-row"><div class="k">Conditions</div><div class="v">${r.cond}</div></div>
+    <div class="detail-row"><div class="k">Elements involved</div><div class="detail-elements">${els}</div></div>
+  `;
+  document.getElementById('detailOverlay').classList.add('show');
+}
+function closeDetail(){ document.getElementById('detailOverlay').classList.remove('show'); }
+
+/* ============ PERIODIC TABLE ============ */
+function buildPeriodicTable(){
+  const grid = document.getElementById('ptGrid');
+  grid.innerHTML = ELEMENTS.map(e=>`
+    <div class="el-tile" id="tile-${e.n}" style="background:${CAT_COLOR[e.cat]}14; border-color:${CAT_COLOR[e.cat]}40"
+      onclick="openElement(${e.n})">
+      <span class="num">${e.n}</span>
+      <span class="sym" style="color:${CAT_COLOR[e.cat]}">${e.sym}</span>
+    </div>
+  `).join('');
+  const legend = document.getElementById('ptLegend');
+  legend.innerHTML = Object.entries(CAT_COLOR).map(([cat,color])=>`
+    <div class="pt-legend-item"><span class="pt-swatch" style="background:${color}"></span>${cat}</div>
+  `).join('');
+}
+
+function openElement(n){
+  const e = ELEMENTS.find(x=>x.n===n);
+  if(!e) return;
+  document.querySelectorAll('.el-tile').forEach(t=>t.classList.remove('hl'));
+  const tile = document.getElementById('tile-'+n);
+  if(tile) tile.classList.add('hl');
+  const related = REACTIONS.filter(r=>r.el.includes(e.sym));
+  document.getElementById('ptPanel').innerHTML = `
+    <button class="pt-panel-close" onclick="closePtPanel()">&#10005;</button>
+    <div class="big-sym" style="color:${CAT_COLOR[e.cat]}">${e.sym}</div>
+    <div class="el-name">${e.name}</div>
+    <div class="pt-fact"><span class="k">Atomic number</span><span>${e.n}</span></div>
+    <div class="pt-fact"><span class="k">Atomic mass</span><span>${e.mass}</span></div>
+    <div class="pt-fact"><span class="k">Category</span><span style="color:${CAT_COLOR[e.cat]}">${e.cat}</span></div>
+    <div class="pt-related">
+      <h4>Reactions using ${e.sym}</h4>
+      ${related.length ? related.map(r=>`<div class="pt-related-item" onclick="openDetailFromPT(${r.id})">${r.name}</div>`).join('') : '<div style="font-size:12.5px;color:var(--text-dim)">No reactions in this database yet.</div>'}
+    </div>
+  `;
+  document.getElementById('ptPanel').classList.add('show');
+}
+function closePtPanel(){ document.getElementById('ptPanel').classList.remove('show'); }
+function openDetailFromPT(id){ closePtPanel(); openDetail(id); }
+
+/* ============ ambient ghost element background ============ */
+function buildGhostBg(){
+  const container = document.getElementById('bgElements');
+  const symbols = ["H","He","Li","C","N","O","Na","Mg","Al","Si","Cl","K","Ca","Fe","Cu","Zn","Ag","Au","I","Xe"];
+  let html = '';
+  for(let i=0;i<26;i++){
+    const sym = symbols[Math.floor(Math.random()*symbols.length)];
+    const top = Math.random()*100;
+    const left = Math.random()*100;
+    html += `<div class="ghost-el" style="top:${top}%; left:${left}%">${sym}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+/* ============ init ============ */
+buildChips();
+buildPeriodicTable();
+buildGhostBg();
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){ closeDetail(); closePtPanel(); closeSearch(); }
+});
+</script>
+</body>
+</html>
