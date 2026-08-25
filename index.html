@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GL0XCXRRBN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-GL0XCXRRBN');
-</script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chemistry Zone — Search Real Chemical Reactions</title>
@@ -17,6 +9,8 @@
 <meta property="og:title" content="Chemistry Zone">
 <meta property="og:description" content="Search real chemical reactions and explore an interactive periodic table.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://chemistryzone27.com/">
+<link rel="canonical" href="https://chemistryzone27.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -408,6 +402,67 @@ footer{
   border-top:1px solid var(--border-soft);
 }
 
+.page-head{ text-align:center; padding:36px 5% 10px; }
+.page-head.small{ padding-top:10px; }
+.page-emoji{ font-size:38px; margin-bottom:10px; }
+.page-head h1{ font-family:var(--display); font-size:26px; font-weight:600; margin-bottom:8px; }
+.page-head p{ color:var(--text-muted); font-size:13.5px; max-width:520px; margin:0 auto; }
+.back-btn{ background:var(--panel); border:1px solid var(--border); color:var(--text-muted); font-family:var(--mono); font-size:12px; padding:8px 16px; border-radius:100px; cursor:pointer; margin:24px 5% 0; }
+.back-btn:hover{ color:var(--text); border-color:var(--green-dim); }
+
+.lesson-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; max-width:980px; margin:30px auto; padding:0 5% 80px; }
+.lesson-tile{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:26px 22px; cursor:pointer; transition:all 0.2s ease; text-align:left; }
+.lesson-tile:hover{ border-color:var(--green-dim); transform:translateY(-3px); }
+.lesson-tile .lt-emoji{ font-size:28px; margin-bottom:12px; }
+.lesson-tile .lt-title{ font-family:var(--display); font-weight:600; font-size:16px; margin-bottom:6px; }
+.lesson-tile .lt-desc{ font-size:12.5px; color:var(--text-muted); line-height:1.5; }
+
+.lesson-page{ max-width:900px; margin:0 auto; padding-bottom:20px; }
+.lesson-content{ padding:20px 5% 80px; }
+.lesson-card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px; margin-bottom:16px; }
+.lesson-card h3{ font-family:var(--display); font-size:15.5px; margin-bottom:10px; color:var(--green); }
+.lesson-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.7; margin-bottom:6px; }
+.lesson-eq{ font-family:var(--mono); font-size:14.5px; color:var(--green); background:var(--bg-deep); border:1px solid var(--border-soft); border-radius:8px; padding:12px 14px; margin:10px 0; }
+.step-line{ font-size:12.5px; color:var(--text); padding:7px 0; border-bottom:1px solid var(--border-soft); font-family:var(--mono); }
+.step-line:last-child{ border-bottom:none; }
+
+.calc-tabs{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:0 5% 26px; }
+.calc-tab-btn{ font-family:var(--mono); font-size:11.5px; color:var(--text-muted); background:var(--panel); border:1px solid var(--border); padding:8px 15px; border-radius:100px; cursor:pointer; }
+.calc-tab-btn.active{ background:var(--green); color:#04241A; border-color:var(--green); }
+.calc-panel{ display:none; max-width:520px; margin:0 auto; padding:0 5% 80px; }
+.calc-panel.active{ display:block; }
+.calc-field{ margin-bottom:14px; }
+.calc-field label{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:6px; }
+.calc-field input, .calc-field select{ width:100%; background:var(--panel); border:1px solid var(--border); color:var(--text); padding:10px 14px; border-radius:8px; font-family:var(--body); font-size:14px; outline:none; }
+.calc-field input:focus, .calc-field select:focus{ border-color:var(--green-dim); }
+.calc-btn{ background:var(--green); color:#04241A; border:none; padding:11px 22px; border-radius:100px; font-weight:600; font-size:13.5px; cursor:pointer; width:100%; margin-top:4px; }
+.calc-result{ margin-top:18px; background:var(--bg-deep); border:1px solid var(--border-soft); border-radius:10px; padding:16px 18px; font-size:12.5px; line-height:1.85; display:none; color:var(--text-muted); font-family:var(--mono); }
+.calc-result.show{ display:block; }
+.calc-result .big{ font-family:var(--display); font-size:19px; color:var(--green); margin-bottom:8px; }
+.calc-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+.quiz-wrap{ max-width:560px; margin:0 auto; padding:20px 5% 80px; }
+.quiz-progress{ font-family:var(--mono); font-size:11.5px; color:var(--text-dim); margin-bottom:14px; text-align:center; }
+.quiz-card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:26px 24px; }
+.quiz-q{ font-family:var(--display); font-size:16px; margin-bottom:20px; line-height:1.5; }
+.quiz-opt{ display:block; width:100%; text-align:left; background:var(--bg-deep); border:1px solid var(--border); color:var(--text); padding:13px 16px; border-radius:10px; margin-bottom:10px; cursor:pointer; font-size:13.5px; transition:all 0.15s ease; }
+.quiz-opt:hover{ border-color:var(--green-dim); }
+.quiz-opt.correct{ border-color:var(--green); background:rgba(62,207,142,0.12); color:var(--green); }
+.quiz-opt.wrong{ border-color:var(--red); background:rgba(255,107,107,0.1); color:#FF9494; }
+.quiz-explain{ margin-top:14px; font-size:12.5px; color:var(--text-muted); background:var(--bg-deep); border-radius:8px; padding:12px 14px; display:none; line-height:1.6; }
+.quiz-explain.show{ display:block; }
+.quiz-next{ margin-top:16px; }
+.quiz-score{ text-align:center; padding:40px 20px; }
+.quiz-score .big-score{ font-family:var(--display); font-size:44px; color:var(--green); margin-bottom:10px; }
+
+.formula-groups{ max-width:900px; margin:0 auto; padding:10px 5% 80px; }
+.formula-group{ margin-bottom:26px; }
+.formula-group h3{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--amber); margin-bottom:12px; }
+.formula-cards{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:12px; }
+.formula-card{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; }
+.formula-card .f-eq{ font-family:var(--mono); font-size:15.5px; color:var(--green); margin-bottom:6px; }
+.formula-card .f-desc{ font-size:12px; color:var(--text-muted); line-height:1.5; }
+
 @media (max-width:640px){
   .pt-grid{ grid-template-columns:repeat(18, 28px); }
   .el-tile{ min-width:28px; }
@@ -448,6 +503,7 @@ footer{
   </div>
   <nav>
     <button class="nav-link active" id="navHome" onclick="showHome()">Reactions</button>
+    <button class="nav-link" id="navLessons" onclick="showLessons()">Lessons</button>
     <button class="nav-link" id="navPT" onclick="showPeriodicTable()">Periodic Table</button>
   </nav>
 </header>
@@ -494,6 +550,59 @@ footer{
     </div>
     <div class="pt-legend" id="ptLegend"></div>
     <div class="pt-grid" id="ptGrid"></div>
+  </section>
+
+  <section class="lesson-page" id="lessonsView" style="display:none; max-width:100%;">
+    <div class="page-head">
+      <div class="page-emoji">&#129514;</div>
+      <h1>Chemistry Lessons</h1>
+      <p>Pick a topic — reactions, calculations, reference sheets, and practice questions.</p>
+    </div>
+    <div class="lesson-grid" id="lessonGrid"></div>
+  </section>
+
+  <section class="lesson-page" id="stoichView" style="display:none;">
+    <button class="back-btn" onclick="showLessons()">&larr; Lessons</button>
+    <div class="page-head small">
+      <div class="page-emoji">&#128290;</div>
+      <h1>Stoichiometry</h1>
+      <p>How balanced equations let you calculate exact amounts of reactants and products.</p>
+    </div>
+    <div class="lesson-content" id="stoichContent"></div>
+  </section>
+
+  <section class="lesson-page" id="calcView" style="display:none; max-width:100%;">
+    <button class="back-btn" onclick="showLessons()">&larr; Lessons</button>
+    <div class="page-head small">
+      <div class="page-emoji">&#129518;</div>
+      <h1>Chemistry Calculators</h1>
+      <p>Quick tools for common chemistry calculations.</p>
+    </div>
+    <div class="calc-tabs" id="calcTabs"></div>
+    <div id="calcPanels"></div>
+  </section>
+
+  <section class="lesson-page" id="quizView" style="display:none;">
+    <button class="back-btn" onclick="showLessons()">&larr; Lessons</button>
+    <div class="page-head small">
+      <div class="page-emoji">&#128221;</div>
+      <h1>Practice Questions</h1>
+      <p>15 quick questions to test what you know.</p>
+    </div>
+    <div class="quiz-wrap">
+      <div class="quiz-progress" id="quizProgress"></div>
+      <div id="quizBody"></div>
+    </div>
+  </section>
+
+  <section class="lesson-page" id="formulaView" style="display:none; max-width:100%;">
+    <button class="back-btn" onclick="showLessons()">&larr; Lessons</button>
+    <div class="page-head small">
+      <div class="page-emoji">&#128218;</div>
+      <h1>Chemistry Formula Sheet</h1>
+      <p>Key equations, grouped by topic, for quick reference.</p>
+    </div>
+    <div class="formula-groups" id="formulaGroups"></div>
   </section>
 </main>
 
@@ -824,19 +933,54 @@ const ELEMENTS = [
 ];
 
 /* ============ NAVIGATION ============ */
-function showHome(){
-  document.getElementById('homeView').style.display = 'flex';
-  document.getElementById('ptView').classList.remove('show');
-  document.getElementById('navHome').classList.add('active');
-  document.getElementById('navPT').classList.remove('active');
+const ALL_VIEWS = ['homeView','ptView','lessonsView','stoichView','calcView','quizView','formulaView'];
+function hideAllViews(){
+  ALL_VIEWS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(id==='homeView'){ el.style.display = 'none'; }
+    else { el.style.display = 'none'; el.classList.remove('show'); }
+  });
+  document.getElementById('resultsView').classList.remove('show');
+  document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
   closeDetail(); closePtPanel();
 }
+function showHome(){
+  hideAllViews();
+  document.getElementById('homeView').style.display = 'flex';
+  document.getElementById('navHome').classList.add('active');
+}
 function showPeriodicTable(){
-  document.getElementById('homeView').style.display = 'none';
-  document.getElementById('resultsView').classList.remove('show');
+  hideAllViews();
+  document.getElementById('ptView').style.display = 'block';
   document.getElementById('ptView').classList.add('show');
-  document.getElementById('navHome').classList.remove('active');
   document.getElementById('navPT').classList.add('active');
+}
+function showLessons(){
+  hideAllViews();
+  document.getElementById('lessonsView').style.display = 'block';
+  document.getElementById('navLessons').classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showStoich(){
+  hideAllViews();
+  document.getElementById('stoichView').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showCalc(){
+  hideAllViews();
+  document.getElementById('calcView').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showQuiz(){
+  hideAllViews();
+  document.getElementById('quizView').style.display = 'block';
+  resetQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showFormula(){
+  hideAllViews();
+  document.getElementById('formulaView').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 /* ============ SEARCH ORB ============ */
@@ -1005,10 +1149,372 @@ function buildGhostBg(){
   container.innerHTML = html;
 }
 
+/* ============ LESSONS HUB ============ */
+const LESSON_TILES = [
+ {emoji:"&#9899;&#65039;", title:"Chemical Reactions", desc:"Search real chemical reactions and balanced equations.", action:"showHome()"},
+ {emoji:"&#128290;", title:"Stoichiometry", desc:"Learn mole ratios and balanced-equation math.", action:"showStoich()"},
+ {emoji:"&#129518;", title:"Chemistry Calculators", desc:"Molar mass, molarity, dilution and stoichiometry tools.", action:"showCalc()"},
+ {emoji:"&#9883;&#65039;", title:"Periodic Table", desc:"Browse all 118 elements and their data.", action:"showPeriodicTable()"},
+ {emoji:"&#128221;", title:"Practice Questions", desc:"Test yourself with a 15-question chemistry quiz.", action:"showQuiz()"},
+ {emoji:"&#128218;", title:"Chemistry Formula", desc:"Quick reference sheet of key formulas.", action:"showFormula()"}
+];
+function buildLessonGrid(){
+  document.getElementById('lessonGrid').innerHTML = LESSON_TILES.map(t=>`
+    <div class="lesson-tile" onclick="${t.action}">
+      <div class="lt-emoji">${t.emoji}</div>
+      <div class="lt-title">${t.title}</div>
+      <div class="lt-desc">${t.desc}</div>
+    </div>
+  `).join('');
+}
+
+/* ============ STOICHIOMETRY LESSON ============ */
+function buildStoichPage(){
+  document.getElementById('stoichContent').innerHTML = `
+    <div class="lesson-card">
+      <h3>The mole ratio</h3>
+      <p>A balanced equation's coefficients tell you the ratio of moles that react and form. In <span style="color:var(--green)">2H₂ + O₂ → 2H₂O</span>, 2 moles of hydrogen react with 1 mole of oxygen to form 2 moles of water — always in that fixed ratio, no matter how much you start with.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>Worked example — mass to mass</h3>
+      <p>How many grams of CO₂ form when 16 g of CH₄ burns completely?</p>
+      <div class="lesson-eq">CH₄ + 2O₂ → CO₂ + 2H₂O</div>
+      <div class="step-line">1. Moles of CH₄ = 16 g ÷ 16.04 g/mol ≈ 1.00 mol</div>
+      <div class="step-line">2. Mole ratio CH₄ : CO₂ is 1 : 1, so moles of CO₂ ≈ 1.00 mol</div>
+      <div class="step-line">3. Mass of CO₂ = 1.00 mol × 44.01 g/mol ≈ 44.0 g</div>
+    </div>
+    <div class="lesson-card">
+      <h3>Limiting reactant</h3>
+      <p>When two reactants are mixed, whichever runs out first — the "limiting reactant" — determines how much product can form. The other reactant is left over in "excess". Compare mole ratios against the balanced equation to find which one limits the reaction.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>Try it yourself</h3>
+      <p>Open the <b style="color:var(--green); cursor:pointer" onclick="showCalc()">Chemistry Calculators</b> page and use the Stoichiometry tab to run your own mass-to-mass calculations on real reactions.</p>
+    </div>
+  `;
+}
+
+/* ============ FORMULA PARSER + MOLAR MASS ============ */
+function parseFormula(f){
+  f = f.replace(/\s+/g,'');
+  let i = 0;
+  function parseGroup(){
+    let counts = {};
+    while(i < f.length && f[i] !== ')'){
+      if(f[i] === '('){
+        i++;
+        const inner = parseGroup();
+        i++; // skip ')'
+        let num = '';
+        while(i < f.length && /[0-9]/.test(f[i])){ num += f[i]; i++; }
+        const mult = num ? parseInt(num) : 1;
+        for(const el in inner){ counts[el] = (counts[el]||0) + inner[el]*mult; }
+      } else if(/[A-Z]/.test(f[i])){
+        let sym = f[i]; i++;
+        while(i < f.length && /[a-z]/.test(f[i])){ sym += f[i]; i++; }
+        let num = '';
+        while(i < f.length && /[0-9]/.test(f[i])){ num += f[i]; i++; }
+        const count = num ? parseInt(num) : 1;
+        counts[sym] = (counts[sym]||0) + count;
+      } else {
+        i++;
+      }
+    }
+    return counts;
+  }
+  return parseGroup();
+}
+function molarMass(formula){
+  if(!formula) return null;
+  let counts;
+  try{ counts = parseFormula(formula); } catch(e){ return null; }
+  if(Object.keys(counts).length === 0) return null;
+  let total = 0, breakdown = [];
+  for(const sym in counts){
+    const elData = ELEMENTS.find(e=>e.sym === sym);
+    if(!elData) return null;
+    const mass = parseFloat(String(elData.mass).replace(/[\[\]]/g,''));
+    const subtotal = mass * counts[sym];
+    total += subtotal;
+    breakdown.push({sym, count:counts[sym], mass, subtotal});
+  }
+  return {total, breakdown};
+}
+
+/* ============ STOICHIOMETRY CALCULATOR DATA ============ */
+const STOICH_REACTIONS = [
+ {label:"2H₂ + O₂ → 2H₂O", species:[{f:"H2",c:2},{f:"O2",c:1},{f:"H2O",c:2}]},
+ {label:"CH₄ + 2O₂ → CO₂ + 2H₂O", species:[{f:"CH4",c:1},{f:"O2",c:2},{f:"CO2",c:1},{f:"H2O",c:2}]},
+ {label:"N₂ + 3H₂ → 2NH₃", species:[{f:"N2",c:1},{f:"H2",c:3},{f:"NH3",c:2}]},
+ {label:"2Al + Fe2O3 → Al2O3 + 2Fe", species:[{f:"Al",c:2},{f:"Fe2O3",c:1},{f:"Al2O3",c:1},{f:"Fe",c:2}]},
+ {label:"CaCO3 → CaO + CO2", species:[{f:"CaCO3",c:1},{f:"CaO",c:1},{f:"CO2",c:1}]},
+ {label:"2Mg + O2 → 2MgO", species:[{f:"Mg",c:2},{f:"O2",c:1},{f:"MgO",c:2}]},
+ {label:"Zn + 2HCl → ZnCl2 + H2", species:[{f:"Zn",c:1},{f:"HCl",c:2},{f:"ZnCl2",c:1},{f:"H2",c:1}]}
+];
+
+/* ============ CHEMISTRY CALCULATORS ============ */
+const CALC_TABS = ["Molar Mass","Moles ↔ Grams","Molarity","Dilution","Stoichiometry"];
+function buildCalcTabs(){
+  document.getElementById('calcTabs').innerHTML = CALC_TABS.map((t,i)=>
+    `<button class="calc-tab-btn ${i===0?'active':''}" onclick="switchCalcTab(${i}, this)">${t}</button>`
+  ).join('');
+  document.getElementById('calcPanels').innerHTML = `
+    <div class="calc-panel active" id="calcPanel0">
+      <div class="calc-field"><label>Chemical formula</label><input id="mmFormula" placeholder="e.g. Ca(OH)2"></div>
+      <button class="calc-btn" onclick="calcMolarMass()">Calculate</button>
+      <div class="calc-result" id="mmResult"></div>
+    </div>
+    <div class="calc-panel" id="calcPanel1">
+      <div class="calc-field"><label>Chemical formula</label><input id="mgFormula" placeholder="e.g. NaCl"></div>
+      <div class="calc-row">
+        <div class="calc-field"><label>Mass (g)</label><input id="mgMass" type="number" placeholder="leave blank to solve"></div>
+        <div class="calc-field"><label>Moles (mol)</label><input id="mgMoles" type="number" placeholder="leave blank to solve"></div>
+      </div>
+      <button class="calc-btn" onclick="calcMolesGrams()">Calculate</button>
+      <div class="calc-result" id="mgResult"></div>
+    </div>
+    <div class="calc-panel" id="calcPanel2">
+      <div class="calc-row">
+        <div class="calc-field"><label>Moles (mol)</label><input id="molN" type="number"></div>
+        <div class="calc-field"><label>Volume (L)</label><input id="molV" type="number"></div>
+      </div>
+      <button class="calc-btn" onclick="calcMolarity()">Calculate molarity</button>
+      <div class="calc-result" id="molResult"></div>
+    </div>
+    <div class="calc-panel" id="calcPanel3">
+      <div class="calc-row">
+        <div class="calc-field"><label>M₁ (mol/L)</label><input id="dM1" type="number"></div>
+        <div class="calc-field"><label>V₁ (L)</label><input id="dV1" type="number"></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field"><label>M₂ (mol/L)</label><input id="dM2" type="number"></div>
+        <div class="calc-field"><label>V₂ (L)</label><input id="dV2" type="number"></div>
+      </div>
+      <div class="search-hint" style="text-align:left; margin-bottom:12px">Leave exactly one field blank — it will be solved for.</div>
+      <button class="calc-btn" onclick="calcDilution()">Solve</button>
+      <div class="calc-result" id="dResult"></div>
+    </div>
+    <div class="calc-panel" id="calcPanel4">
+      <div class="calc-field"><label>Reaction</label><select id="stReaction" onchange="populateStoichSelectors()"></select></div>
+      <div class="calc-row">
+        <div class="calc-field"><label>I have (known)</label><select id="stKnown"></select></div>
+        <div class="calc-field"><label>I want (find)</label><select id="stFind"></select></div>
+      </div>
+      <div class="calc-field"><label>Mass of known (g)</label><input id="stMass" type="number" placeholder="e.g. 16"></div>
+      <button class="calc-btn" onclick="calcStoich()">Calculate</button>
+      <div class="calc-result" id="stResult"></div>
+    </div>
+  `;
+  populateStoichReactionSelect();
+}
+function switchCalcTab(i, btn){
+  document.querySelectorAll('.calc-tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.calc-panel').forEach((p,idx)=>p.classList.toggle('active', idx===i));
+}
+function calcMolarMass(){
+  const f = document.getElementById('mmFormula').value.trim();
+  const box = document.getElementById('mmResult');
+  const r = molarMass(f);
+  if(!r){ box.innerHTML = 'Could not parse that formula. Use element symbols, e.g. Ca(OH)2'; box.classList.add('show'); return; }
+  box.innerHTML = `<div class="big">${r.total.toFixed(3)} g/mol</div>` +
+    r.breakdown.map(b=>`<div>${b.sym} × ${b.count} × ${b.mass.toFixed(3)} g/mol = ${b.subtotal.toFixed(3)} g/mol</div>`).join('');
+  box.classList.add('show');
+}
+function calcMolesGrams(){
+  const f = document.getElementById('mgFormula').value.trim();
+  const massIn = document.getElementById('mgMass').value;
+  const molesIn = document.getElementById('mgMoles').value;
+  const box = document.getElementById('mgResult');
+  const r = molarMass(f);
+  if(!r){ box.innerHTML = 'Could not parse that formula.'; box.classList.add('show'); return; }
+  if(massIn && !molesIn){
+    const moles = parseFloat(massIn)/r.total;
+    box.innerHTML = `<div class="big">${moles.toFixed(4)} mol</div><div>${massIn} g ÷ ${r.total.toFixed(2)} g/mol</div>`;
+  } else if(molesIn && !massIn){
+    const mass = parseFloat(molesIn)*r.total;
+    box.innerHTML = `<div class="big">${mass.toFixed(3)} g</div><div>${molesIn} mol × ${r.total.toFixed(2)} g/mol</div>`;
+  } else {
+    box.innerHTML = 'Enter either mass or moles (leave the other field blank).';
+  }
+  box.classList.add('show');
+}
+function calcMolarity(){
+  const n = parseFloat(document.getElementById('molN').value);
+  const v = parseFloat(document.getElementById('molV').value);
+  const box = document.getElementById('molResult');
+  if(!n || !v){ box.innerHTML = 'Enter both moles and volume.'; box.classList.add('show'); return; }
+  box.innerHTML = `<div class="big">${(n/v).toFixed(4)} mol/L</div><div>${n} mol ÷ ${v} L</div>`;
+  box.classList.add('show');
+}
+function calcDilution(){
+  const ids = ['dM1','dV1','dM2','dV2'];
+  const raw = ids.map(id=>document.getElementById(id).value);
+  const nums = raw.map(v=> v==='' ? null : parseFloat(v));
+  const box = document.getElementById('dResult');
+  const blanks = nums.filter(v=>v===null).length;
+  if(blanks !== 1){ box.innerHTML = 'Leave exactly one field blank — that is the value to solve for.'; box.classList.add('show'); return; }
+  let [M1,V1,M2,V2] = nums;
+  let label, value;
+  if(M1===null){ value = (M2*V2)/V1; label='M₁'; }
+  else if(V1===null){ value = (M2*V2)/M1; label='V₁'; }
+  else if(M2===null){ value = (M1*V1)/V2; label='M₂'; }
+  else { value = (M1*V1)/M2; label='V₂'; }
+  box.innerHTML = `<div class="big">${label} = ${value.toFixed(4)}</div><div>from M₁V₁ = M₂V₂</div>`;
+  box.classList.add('show');
+}
+function populateStoichReactionSelect(){
+  const sel = document.getElementById('stReaction');
+  sel.innerHTML = STOICH_REACTIONS.map((r,i)=>`<option value="${i}">${r.label}</option>`).join('');
+  populateStoichSelectors();
+}
+function populateStoichSelectors(){
+  const idx = document.getElementById('stReaction').value || 0;
+  const r = STOICH_REACTIONS[idx];
+  const opts = r.species.map(s=>`<option value="${s.f}">${s.f} (coef ${s.c})</option>`).join('');
+  document.getElementById('stKnown').innerHTML = opts;
+  document.getElementById('stFind').innerHTML = opts;
+}
+function calcStoich(){
+  const idx = document.getElementById('stReaction').value || 0;
+  const r = STOICH_REACTIONS[idx];
+  const knownF = document.getElementById('stKnown').value;
+  const findF = document.getElementById('stFind').value;
+  const mass = parseFloat(document.getElementById('stMass').value);
+  const box = document.getElementById('stResult');
+  if(!mass || mass <= 0){ box.innerHTML = 'Enter a valid mass.'; box.classList.add('show'); return; }
+  const known = r.species.find(s=>s.f===knownF);
+  const find = r.species.find(s=>s.f===findF);
+  const mmKnown = molarMass(knownF);
+  const mmFind = molarMass(findF);
+  if(!mmKnown || !mmFind){ box.innerHTML = 'Could not parse formula.'; box.classList.add('show'); return; }
+  const molesKnown = mass / mmKnown.total;
+  const molesFind = molesKnown * (find.c / known.c);
+  const massFind = molesFind * mmFind.total;
+  box.innerHTML = `
+    <div class="big">${massFind.toFixed(3)} g of ${findF}</div>
+    <div>Moles of ${knownF}: ${mass} g ÷ ${mmKnown.total.toFixed(2)} g/mol = ${molesKnown.toFixed(4)} mol</div>
+    <div>Mole ratio ${knownF} : ${findF} = ${known.c} : ${find.c}</div>
+    <div>Moles of ${findF}: ${molesKnown.toFixed(4)} × (${find.c}/${known.c}) = ${molesFind.toFixed(4)} mol</div>
+    <div>Mass of ${findF}: ${molesFind.toFixed(4)} × ${mmFind.total.toFixed(2)} g/mol = ${massFind.toFixed(3)} g</div>
+  `;
+  box.classList.add('show');
+}
+
+/* ============ PRACTICE QUESTIONS ============ */
+const QUIZ_QUESTIONS = [
+ {q:"CH₄ + 2O₂ → CO₂ + 2H₂O is an example of which reaction type?", opts:["Combustion","Precipitation","Decomposition","Displacement"], correct:0, explain:"A hydrocarbon reacting with oxygen to release heat, CO₂ and water is a combustion reaction."},
+ {q:"What two products always form when an acid neutralizes a base?", opts:["A gas and water","A salt and water","An oxide and hydrogen","A precipitate and a gas"], correct:1, explain:"Acid + base → salt + water is the general pattern of neutralization."},
+ {q:"Which element has atomic number 6?", opts:["Nitrogen","Oxygen","Carbon","Boron"], correct:2, explain:"Carbon sits at atomic number 6 on the periodic table."},
+ {q:"In 2H₂ + O₂ → 2H₂O, how many moles of H₂ react with 1 mole of O₂?", opts:["1","2","3","4"], correct:1, explain:"The coefficient of H₂ is 2, so 2 moles react with every 1 mole of O₂."},
+ {q:"An 'exothermic' reaction is one that:", opts:["Absorbs heat from its surroundings","Releases heat to its surroundings","Requires a catalyst","Only happens in water"], correct:1, explain:"Exothermic reactions release energy, usually as heat, warming their surroundings."},
+ {q:"What is the unit of molar mass?", opts:["mol","g/mol","L/mol","mol/L"], correct:1, explain:"Molar mass is measured in grams per mole (g/mol)."},
+ {q:"Approximately how many particles are in one mole of a substance?", opts:["6.022 × 10²³","3.14 × 10⁸","9.8 × 10¹⁰","1.6 × 10⁻¹⁹"], correct:0, explain:"This is Avogadro's number, the number of particles in one mole."},
+ {q:"In a balanced equation, the coefficients represent the ratio of:", opts:["Grams","Moles","Volumes only","Atomic numbers"], correct:1, explain:"Coefficients in a balanced equation give the mole ratio of reactants and products."},
+ {q:"What gas is released when a metal carbonate reacts with an acid?", opts:["Oxygen","Hydrogen","Carbon dioxide","Nitrogen"], correct:2, explain:"Carbonates react with acids to release CO₂ gas, alongside a salt and water."},
+ {q:"Sodium, potassium and lithium belong to which family?", opts:["Halogens","Noble gases","Alkali metals","Transition metals"], correct:2, explain:"These highly reactive metals form Group 1, the alkali metals."},
+ {q:"What is the pH of a neutral solution at room temperature?", opts:["0","7","14","1"], correct:1, explain:"A pH of 7 is neutral — neither acidic nor basic."},
+ {q:"Rusting of iron is an example of which reaction type?", opts:["Decomposition","Redox (oxidation)","Precipitation","Acid–base"], correct:1, explain:"Iron loses electrons to oxygen in a slow oxidation (redox) reaction."},
+ {q:"In a precipitation reaction, what forms?", opts:["A gas","A soluble salt","An insoluble solid","Water only"], correct:2, explain:"Precipitation reactions produce an insoluble solid that settles out of solution."},
+ {q:"Which formula correctly gives molarity?", opts:["M = n × V","M = n ÷ V","M = V ÷ n","M = m × V"], correct:1, explain:"Molarity equals moles of solute divided by liters of solution (M = n/V)."},
+ {q:"Which gas is typically released when a reactive metal reacts with a dilute acid?", opts:["Oxygen","Chlorine","Hydrogen","Carbon dioxide"], correct:2, explain:"Metals above hydrogen in reactivity displace hydrogen gas from dilute acids."}
+];
+let quizIndex = 0, quizScore = 0, quizAnswered = false;
+function resetQuiz(){ quizIndex = 0; quizScore = 0; quizAnswered = false; renderQuiz(); }
+function renderQuiz(){
+  const wrap = document.getElementById('quizBody');
+  if(quizIndex >= QUIZ_QUESTIONS.length){
+    wrap.innerHTML = `
+      <div class="quiz-score">
+        <div class="big-score">${quizScore}/${QUIZ_QUESTIONS.length}</div>
+        <div style="color:var(--text-muted); margin-bottom:20px">You've completed the quiz.</div>
+        <button class="calc-btn" style="max-width:200px; margin:0 auto" onclick="resetQuiz()">Try again</button>
+      </div>`;
+    document.getElementById('quizProgress').textContent = 'Finished';
+    return;
+  }
+  const q = QUIZ_QUESTIONS[quizIndex];
+  quizAnswered = false;
+  document.getElementById('quizProgress').textContent = `Question ${quizIndex+1} of ${QUIZ_QUESTIONS.length} — Score: ${quizScore}`;
+  wrap.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-q">${q.q}</div>
+      ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+      <div class="quiz-explain" id="quizExplain"></div>
+      <button class="calc-btn quiz-next" id="quizNextBtn" style="display:none" onclick="nextQuiz()">Next question →</button>
+    </div>
+  `;
+}
+function answerQuiz(i){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const q = QUIZ_QUESTIONS[quizIndex];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((btn,idx)=>{
+    if(idx===q.correct) btn.classList.add('correct');
+    else if(idx===i) btn.classList.add('wrong');
+    btn.onclick = null;
+  });
+  if(i === q.correct) quizScore++;
+  const ex = document.getElementById('quizExplain');
+  ex.innerHTML = q.explain;
+  ex.classList.add('show');
+  document.getElementById('quizNextBtn').style.display = 'block';
+  document.getElementById('quizProgress').textContent = `Question ${quizIndex+1} of ${QUIZ_QUESTIONS.length} — Score: ${quizScore}`;
+}
+function nextQuiz(){ quizIndex++; renderQuiz(); }
+
+/* ============ FORMULA SHEET ============ */
+const FORMULA_GROUPS = [
+ {title:"Mole & Mass", items:[
+   {eq:"n = m / M", desc:"Moles (n) = mass in grams (m) ÷ molar mass (M, g/mol)."},
+   {eq:"N = n × Nₐ", desc:"Number of particles = moles × Avogadro's number (6.022 × 10²³)."}
+ ]},
+ {title:"Concentration", items:[
+   {eq:"M = n / V", desc:"Molarity (mol/L) = moles of solute ÷ liters of solution."},
+   {eq:"M₁V₁ = M₂V₂", desc:"Dilution equation — concentration × volume stays constant."}
+ ]},
+ {title:"Gas Laws", items:[
+   {eq:"PV = nRT", desc:"Ideal gas law — pressure × volume = moles × gas constant × temperature."},
+   {eq:"P₁V₁ = P₂V₂", desc:"Boyle's law, at constant temperature."},
+   {eq:"V₁/T₁ = V₂/T₂", desc:"Charles's law, at constant pressure."},
+   {eq:"P₁V₁/T₁ = P₂V₂/T₂", desc:"Combined gas law."}
+ ]},
+ {title:"Thermochemistry", items:[
+   {eq:"q = mcΔT", desc:"Heat energy = mass × specific heat capacity × change in temperature."}
+ ]},
+ {title:"Acids & Bases", items:[
+   {eq:"pH = −log[H⁺]", desc:"pH from hydrogen ion concentration."},
+   {eq:"pOH = −log[OH⁻]", desc:"pOH from hydroxide ion concentration."},
+   {eq:"pH + pOH = 14", desc:"Relationship at 25°C in aqueous solution."}
+ ]},
+ {title:"Yields & Composition", items:[
+   {eq:"% yield = (actual / theoretical) × 100", desc:"How much product you actually got vs. the maximum possible."},
+   {eq:"% composition = (mass of element / total mass) × 100", desc:"Percentage by mass of an element within a compound."}
+ ]},
+ {title:"Density", items:[
+   {eq:"d = m / V", desc:"Density = mass ÷ volume."}
+ ]}
+];
+function buildFormulaSheet(){
+  document.getElementById('formulaGroups').innerHTML = FORMULA_GROUPS.map(g=>`
+    <div class="formula-group">
+      <h3>${g.title}</h3>
+      <div class="formula-cards">
+        ${g.items.map(it=>`<div class="formula-card"><div class="f-eq">${it.eq}</div><div class="f-desc">${it.desc}</div></div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
 /* ============ init ============ */
 buildChips();
 buildPeriodicTable();
 buildGhostBg();
+buildLessonGrid();
+buildStoichPage();
+buildCalcTabs();
+buildFormulaSheet();
 document.addEventListener('keydown', e=>{
   if(e.key === 'Escape'){ closeDetail(); closePtPanel(); closeSearch(); }
 });
