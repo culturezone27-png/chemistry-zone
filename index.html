@@ -463,7 +463,104 @@ footer{
 .formula-card .f-eq{ font-family:var(--mono); font-size:15.5px; color:var(--green); margin-bottom:6px; }
 .formula-card .f-desc{ font-size:12px; color:var(--text-muted); line-height:1.5; }
 
+.lab-badge{ display:inline-block; margin-left:10px; vertical-align:middle; background:linear-gradient(135deg, var(--green), #22B8A0); color:#04241A; font-family:var(--mono); font-size:10px; font-weight:700; padding:4px 10px; border-radius:100px; letter-spacing:0.5px; text-transform:uppercase; box-shadow:0 0 16px rgba(62,207,142,0.4); animation:badge-pulse 2.4s ease-in-out infinite; }
+@keyframes badge-pulse{ 0%,100%{ box-shadow:0 0 12px rgba(62,207,142,0.3);} 50%{ box-shadow:0 0 22px rgba(62,207,142,0.55);} }
+
+.lab-search-wrap{ max-width:600px; margin:0 auto 34px; padding:0 5%; }
+.lab-search-result{ display:none; margin-top:14px; text-align:left; }
+.lab-search-result.show{ display:block; }
+.ls-head{ display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+.ls-swatch{ width:36px; height:36px; border-radius:8px; flex-shrink:0; border:1px solid var(--border); }
+.ls-name{ font-family:var(--display); font-weight:600; font-size:16px; }
+.ls-formula{ font-family:var(--mono); font-size:12px; color:var(--green); }
+.ls-state{ font-family:var(--mono); font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+.ls-desc{ font-size:13px; color:var(--text-muted); line-height:1.6; margin:10px 0 14px; }
+.ls-add-btn{ background:var(--green); color:#04241A; border:none; padding:9px 20px; border-radius:100px; font-weight:600; font-size:12.5px; cursor:pointer; }
+
+.lab-scene{ display:grid; grid-template-columns:200px 1fr auto; gap:18px; max-width:1080px; margin:0 auto; padding:0 5% 10px; align-items:start; }
+.shelf-label{ font-family:var(--mono); font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; }
+.shelf{ display:grid; grid-template-columns:repeat(auto-fill, minmax(78px,1fr)); gap:10px; max-height:560px; overflow-y:auto; padding-right:4px; }
+.bottle{ cursor:pointer; display:flex; flex-direction:column; align-items:center; background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:10px 5px 8px; transition:all 0.15s ease; }
+.bottle:hover{ border-color:var(--green-dim); transform:translateY(-2px); background:var(--panel-alt); }
+.bottle svg{ width:36px; height:50px; }
+.bottle .b-label{ font-family:var(--mono); font-size:9px; margin-top:6px; color:var(--text-muted); text-align:center; line-height:1.2; word-break:break-word; }
+
+.lab-center-col{ display:flex; flex-direction:column; align-items:center; }
+.lab-bench{ width:100%; max-width:380px; background:linear-gradient(180deg, rgba(62,207,142,0.04), rgba(20,37,32,0.55)); border:1px solid var(--border); border-radius:18px; padding:34px 20px 26px; position:relative; display:flex; justify-content:center; }
+.lab-bench::after{ content:''; position:absolute; left:10%; right:10%; bottom:14px; height:10px; background:linear-gradient(180deg,#17281F,#0D1712); border-radius:6px; box-shadow:0 6px 16px rgba(0,0,0,0.4); }
+.vessel-panel{ position:relative; z-index:1; text-align:center; }
+.vessel-svg-wrap{ position:relative; width:150px; height:190px; margin:0 auto 14px; }
+.vessel-clip{ position:absolute; inset:0; overflow:hidden; clip-path:polygon(27% 7%, 73% 7%, 73% 28%, 88% 81%, 88% 90%, 82% 93%, 18% 93%, 12% 90%, 12% 81%, 27% 28%); }
+.vessel-liquid-fill{ position:absolute; left:0; right:0; bottom:0; height:0%; background:transparent; transition:height 0.5s ease, background 0.5s ease; opacity:0.88; }
+.vessel-fx{ position:absolute; inset:0; pointer-events:none; overflow:visible; }
+.vessel-slots{ display:flex; gap:8px; justify-content:center; margin-bottom:14px; }
+.vessel-slot{ min-width:70px; padding:6px 10px; border:1px dashed var(--border); border-radius:8px; font-family:var(--mono); font-size:10.5px; color:var(--text-dim); background:var(--bg-deep); }
+.vessel-slot.filled{ border-style:solid; border-color:var(--green-dim); color:var(--green); }
+.vessel-btns{ display:flex; gap:10px; justify-content:center; }
+.lab-clear-btn{ background:var(--panel-alt); border:1px solid var(--border); color:var(--text-muted); padding:9px 18px; border-radius:100px; cursor:pointer; font-family:var(--mono); font-size:11.5px; }
+.lab-clear-btn:hover{ color:var(--text); border-color:var(--red); }
+.lab-disclaimer{ font-family:var(--mono); font-size:9.5px; color:var(--text-dim); margin-top:14px; line-height:1.5; max-width:320px; text-align:center; }
+
+.reaction-result{ margin-top:18px; text-align:left; background:var(--bg-deep); border:1px solid var(--border-soft); border-radius:10px; padding:16px 18px; display:none; max-width:320px; }
+.reaction-result.show{ display:block; }
+.reaction-result .rr-name{ font-family:var(--display); font-weight:600; font-size:14.5px; color:var(--green); margin-bottom:6px; }
+.reaction-result .rr-eq{ font-family:var(--mono); font-size:13.5px; color:var(--text); margin-bottom:8px; }
+.reaction-result .rr-desc{ font-size:12.5px; color:var(--text-muted); line-height:1.6; }
+.reaction-result.none .rr-name{ color:var(--text-dim); }
+
+.vessel-placeholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--mono); font-size:11px; color:var(--text-dim); line-height:1.6; padding:20px; }
+
+.unit-tabs{ display:flex; gap:6px; margin-bottom:14px; }
+.unit-tab{ flex:1; background:var(--bg-deep); border:1px solid var(--border); color:var(--text-muted); padding:8px 10px; border-radius:8px; font-family:var(--mono); font-size:11.5px; cursor:pointer; }
+.unit-tab.active{ background:var(--green); color:#04241A; border-color:var(--green); font-weight:600; }
+.modal-field-group{ margin-bottom:6px; }
+.modal-label{ font-family:var(--mono); font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:6px; }
+.modal-input{ width:100%; background:var(--bg-deep); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:var(--body); font-size:14px; outline:none; }
+.modal-input:focus{ border-color:var(--green-dim); }
+.modal-hint{ font-family:var(--mono); font-size:10px; color:var(--text-dim); margin-top:6px; }
+.modal-error{ font-size:12px; color:#FF9494; margin-top:10px; min-height:14px; line-height:1.5; }
+.modal-warning{ font-size:11.5px; color:var(--amber); margin-bottom:10px; line-height:1.5; }
+.modal-warning:empty{ display:none; }
+
+.titration-controls-panel{ margin-top:18px; text-align:left; background:var(--bg-deep); border:1px solid var(--border-soft); border-radius:10px; padding:16px 18px; }
+.tc-row{ display:flex; justify-content:space-between; margin-bottom:14px; }
+.tc-label{ font-family:var(--mono); font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.tc-value{ font-family:var(--display); font-size:17px; font-weight:600; color:var(--green); }
+.tc-increment-row{ display:flex; gap:8px; margin-bottom:10px; }
+.tc-quick-row{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+.tc-quick-row .lab-clear-btn{ padding:6px 12px; font-size:10.5px; }
+.tc-error{ font-size:11.5px; color:#FF9494; min-height:14px; margin-top:4px; line-height:1.5; }
+.tc-result{ display:none; margin-top:12px; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:12px 14px; }
+.tc-result.show{ display:block; }
+
+@keyframes fx-rise{ 0%{ transform:translateY(0) scale(0.6); opacity:0; } 15%{ opacity:0.9; } 100%{ transform:translateY(-150px) scale(1.1); opacity:0; } }
+@keyframes fx-spark{ 0%{ transform:translateY(0) scale(0.5); opacity:0; } 20%{ opacity:1; } 100%{ transform:translateY(-110px) scale(0.2); opacity:0; } }
+@keyframes fx-sink{ 0%{ transform:translateY(-36px); opacity:0; } 30%{ opacity:1; } 100%{ transform:translateY(58px); opacity:0.85; } }
+@keyframes fx-flash{ 0%,100%{ box-shadow:0 0 0 0 rgba(255,255,255,0); } 30%{ box-shadow:0 0 50px 16px rgba(255,255,255,0.45); } }
+.fx-particle{ position:absolute; border-radius:50%; pointer-events:none; }
+.vessel-svg-wrap.flash-anim{ animation:fx-flash 0.9s ease; border-radius:50%; }
+
+.lab-side-col{ display:flex; flex-direction:column; gap:12px; }
+.lab-side-left{ align-items:flex-start; }
+.lab-side-right{ align-items:flex-end; }
+.side-toggle{ width:56px; height:100px; background:var(--panel); border:1px solid var(--border); border-radius:14px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--text-muted); transition:all 0.2s ease; flex-shrink:0; }
+.side-toggle:hover{ border-color:var(--green-dim); color:var(--green); }
+.tt-arrow{ font-size:16px; display:inline-block; transition:transform 0.3s ease; }
+.tt-arrow.open{ transform:rotate(180deg); }
+.tt-label{ font-family:var(--mono); font-size:8.5px; text-align:center; line-height:1.3; text-transform:uppercase; letter-spacing:0.4px; padding:0 4px; }
+.side-panel-collapsed{ width:0; opacity:0; overflow:hidden; transition:width 0.35s ease, opacity 0.25s ease, padding 0.35s ease; background:var(--panel); border:1px solid var(--border); border-radius:14px; }
+.side-panel-collapsed.open{ width:230px; opacity:1; padding:16px 14px; }
+.tools-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+.tool-item{ cursor:pointer; display:flex; flex-direction:column; align-items:center; background:var(--bg-deep); border:1px solid var(--border); border-radius:10px; padding:8px 4px; transition:all 0.15s ease; }
+.tool-item:hover{ border-color:var(--green-dim); }
+.tool-item.active{ border-color:var(--green); background:rgba(62,207,142,0.1); }
+.tool-item svg{ width:38px; height:48px; }
+.tool-label{ font-family:var(--mono); font-size:8px; color:var(--text-muted); margin-top:4px; text-align:center; line-height:1.2; }
+
 @media (max-width:640px){
+  .lab-scene{ grid-template-columns:1fr; }
+  .lab-side-left,.lab-side-right{ align-items:stretch; }
+  .side-panel-collapsed.open{ width:100%; }
   .pt-grid{ grid-template-columns:repeat(18, 28px); }
   .el-tile{ min-width:28px; }
   .el-tile .sym{ font-size:10px; }
@@ -504,6 +601,7 @@ footer{
   <nav>
     <button class="nav-link active" id="navHome" onclick="showHome()">Reactions</button>
     <button class="nav-link" id="navLessons" onclick="showLessons()">Lessons</button>
+    <button class="nav-link" id="navLab" onclick="showLab()">Lab</button>
     <button class="nav-link" id="navPT" onclick="showPeriodicTable()">Periodic Table</button>
   </nav>
 </header>
@@ -604,12 +702,142 @@ footer{
     </div>
     <div class="formula-groups" id="formulaGroups"></div>
   </section>
+
+  <section class="lesson-page" id="labView" style="display:none; max-width:100%;">
+    <div class="page-head small">
+      <div class="page-emoji">&#129514;</div>
+      <h1>Chemistry Lab <span class="lab-badge">Free Preview</span></h1>
+      <p>Search any element or compound, mix real substances, and watch chemistry happen.</p>
+    </div>
+
+    <div class="lab-search-wrap">
+      <div class="search-bar" style="border-color:var(--green-dim)">
+        <input type="text" id="labSearchInput" placeholder="Search any element or compound — e.g. Copper, NaCl, Iodine" autocomplete="off">
+        <button onclick="labSearch()" aria-label="Search">&#8594;</button>
+      </div>
+      <div class="lesson-card lab-search-result" id="labSearchResult"></div>
+    </div>
+
+    <div class="lab-scene">
+      <div class="lab-side-col lab-side-left">
+        <button class="side-toggle" id="shelfToggle" onclick="toggleShelf()">
+          <span class="tt-arrow" id="shelfArrow">&#8594;</span>
+          <span class="tt-label">Reagents</span>
+        </button>
+        <div class="side-panel-collapsed" id="shelfPanel">
+          <div class="shelf-label">Reagent shelf — tap a bottle to add it</div>
+          <div class="shelf" id="labShelf"></div>
+        </div>
+      </div>
+
+      <div class="lab-center-col">
+        <div class="lab-bench">
+          <div class="vessel-panel">
+            <div class="vessel-svg-wrap" id="vesselSvgWrap"></div>
+            <div id="vesselControlsWrap" style="display:none;">
+              <div class="vessel-slots">
+                <div class="vessel-slot" id="slot0">empty</div>
+                <div class="vessel-slot" id="slot1">empty</div>
+              </div>
+              <div class="vessel-btns">
+                <button class="lab-clear-btn" onclick="clearVessel()">Clear vessel</button>
+              </div>
+              <div class="titration-controls-panel" id="titrationControlsPanel" style="display:none;">
+                <div id="tcEquation" style="margin-bottom:14px;"></div>
+                <div class="tc-row">
+                  <div>
+                    <div class="tc-label">Volume added</div>
+                    <div class="tc-value" id="tcVolume">0.00 mL</div>
+                  </div>
+                  <div>
+                    <div class="tc-label">Progress to equivalence</div>
+                    <div class="tc-value" id="tcProgress">0%</div>
+                  </div>
+                </div>
+                <div class="tc-increment-row">
+                  <input type="number" step="0.01" id="tcIncrement" class="modal-input" value="0.50" style="max-width:110px;">
+                  <button class="titration-add-btn" onclick="addFromBurette()">Add from burette</button>
+                </div>
+                <div class="tc-quick-row">
+                  <button class="lab-clear-btn" onclick="quickAdd(0.1)">+0.10 mL</button>
+                  <button class="lab-clear-btn" onclick="quickAdd(0.5)">+0.50 mL</button>
+                  <button class="lab-clear-btn" onclick="quickAdd(1.0)">+1.00 mL</button>
+                  <button class="lab-clear-btn" onclick="quickAdd(5.0)">+5.00 mL</button>
+                </div>
+                <div class="tc-error" id="tcError"></div>
+                <div class="tc-result" id="tcResult"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reaction-result" id="reactionResult"></div>
+        <div class="lab-disclaimer">Stylized simulation for learning — precise stoichiometry drives the endpoint math, but visuals are illustrative, not literal renderings.</div>
+      </div>
+
+      <div class="lab-side-col lab-side-right">
+        <button class="side-toggle" id="toolsToggle" onclick="toggleTools()">
+          <span class="tt-arrow" id="toolsArrow">&#8592;</span>
+          <span class="tt-label">Lab Tools</span>
+        </button>
+        <div class="side-panel-collapsed" id="toolsPanel">
+          <div class="shelf-label">Tap a tool to use it as your vessel</div>
+          <div class="tools-grid" id="toolsGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>CHEMISTRY ZONE &mdash; a database of real chemical reactions</footer>
 
 <div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
   <div class="detail-card" id="detailCard"></div>
+</div>
+
+<div class="overlay" id="addSubOverlay" onclick="if(event.target===this) closeAddSubModal()">
+  <div class="detail-card" id="addSubCard" style="max-width:400px;">
+    <button class="detail-close" onclick="closeAddSubModal()">&#10005;</button>
+    <h3 id="addSubTitle" style="font-family:var(--display); font-size:17px; margin-bottom:14px; padding-right:30px;">Add substance</h3>
+    <div class="unit-tabs" id="addSubUnitTabs"></div>
+    <div class="modal-warning" id="addSubWarning"></div>
+    <div class="modal-field-group" id="addSubFieldsMol">
+      <label class="modal-label">Amount (mol)</label>
+      <input type="number" step="0.0001" id="addSubMol" class="modal-input">
+      <div class="modal-hint">A suggested lab-scale quantity — edit as you like.</div>
+    </div>
+    <div class="modal-field-group" id="addSubFieldsG" style="display:none;">
+      <label class="modal-label">Mass (g)</label>
+      <input type="number" step="0.001" id="addSubGrams" class="modal-input">
+      <div class="modal-hint">Molar mass: <span id="addSubMM"></span> g/mol</div>
+    </div>
+    <div class="modal-field-group" id="addSubFieldsML" style="display:none;">
+      <label class="modal-label">Volume drawn with pipette (mL)</label>
+      <input type="number" step="0.01" id="addSubVolume" class="modal-input">
+      <label class="modal-label" style="margin-top:10px;">Concentration (mol/L)</label>
+      <input type="number" step="0.0001" id="addSubConc" class="modal-input">
+    </div>
+    <div class="modal-error" id="addSubError"></div>
+    <button class="ls-add-btn" style="width:100%; margin-top:6px;" onclick="confirmAddSubstance()">Add to flask</button>
+  </div>
+</div>
+
+<div class="overlay" id="buretteOverlay" onclick="if(event.target===this) closeBuretteModal()">
+  <div class="detail-card" id="buretteCard" style="max-width:380px;">
+    <button class="detail-close" onclick="closeBuretteModal()">&#10005;</button>
+    <h3 id="buretteTitle" style="font-family:var(--display); font-size:16.5px; margin-bottom:10px; padding-right:30px;">Load burette</h3>
+    <p id="buretteDesc" style="font-size:12.5px; color:var(--text-muted); line-height:1.6; margin-bottom:14px;"></p>
+    <label class="modal-label">Burette size (mL)</label>
+    <select id="buretteSize" class="modal-input" style="margin-bottom:14px;">
+      <option value="25">25 mL</option>
+      <option value="50" selected>50 mL</option>
+      <option value="100">100 mL</option>
+    </select>
+    <label class="modal-label">Titrant concentration (mol/L)</label>
+    <input type="number" step="0.0001" id="buretteConc" class="modal-input" value="0.1000">
+    <div class="modal-error" id="buretteError"></div>
+    <div class="modal-hint" id="buretteTip" style="margin-top:12px; line-height:1.6;"></div>
+    <button class="ls-add-btn" style="width:100%; margin-top:14px;" onclick="confirmLoadBurette()">Load burette</button>
+  </div>
 </div>
 
 <div class="pt-panel" id="ptPanel"></div>
@@ -1133,7 +1361,7 @@ const ELEMENTS = [
 ];
 
 /* ============ NAVIGATION ============ */
-const ALL_VIEWS = ['homeView','ptView','lessonsView','stoichView','calcView','quizView','formulaView'];
+const ALL_VIEWS = ['homeView','ptView','lessonsView','stoichView','calcView','quizView','formulaView','labView'];
 function hideAllViews(){
   ALL_VIEWS.forEach(id=>{
     const el = document.getElementById(id);
@@ -1180,6 +1408,12 @@ function showQuiz(){
 function showFormula(){
   hideAllViews();
   document.getElementById('formulaView').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showLab(){
+  hideAllViews();
+  document.getElementById('labView').style.display = 'block';
+  document.getElementById('navLab').classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -1351,6 +1585,7 @@ function buildGhostBg(){
 
 /* ============ LESSONS HUB ============ */
 const LESSON_TILES = [
+ {emoji:"&#129514;", title:"Chemistry Lab", desc:"Mix real substances and watch reactions happen — free preview.", action:"showLab()"},
  {emoji:"&#9899;&#65039;", title:"Chemical Reactions", desc:"Search real chemical reactions and balanced equations.", action:"showHome()"},
  {emoji:"&#128290;", title:"Stoichiometry", desc:"Learn mole ratios and balanced-equation math.", action:"showStoich()"},
  {emoji:"&#129518;", title:"Chemistry Calculators", desc:"Molar mass, molarity, dilution and stoichiometry tools.", action:"showCalc()"},
@@ -1707,6 +1942,577 @@ function buildFormulaSheet(){
   `).join('');
 }
 
+/* ============ CHEMISTRY LAB (Animation Mode) ============ */
+const SUBSTANCES = [
+ {formula:"H2O", name:"Water", state:"Liquid", color:"#BFE8F5", desc:"A clear, odorless liquid at room temperature."},
+ {formula:"NaCl", name:"Sodium chloride (table salt)", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid, dissolves readily in water."},
+ {formula:"HCl", name:"Hydrochloric acid", state:"Liquid", color:"#EAF7E8", desc:"A colorless, fuming corrosive liquid with a sharp odor."},
+ {formula:"NaOH", name:"Sodium hydroxide", state:"Solid", color:"#F0F0EC", desc:"White solid pellets; forms a caustic, colorless solution in water."},
+ {formula:"H2SO4", name:"Sulfuric acid", state:"Liquid", color:"#F2EFE0", desc:"A dense, oily, colorless liquid — highly corrosive."},
+ {formula:"CuSO4", name:"Copper(II) sulfate", state:"Solid", color:"#2B6FD1", desc:"Bright blue crystalline solid; forms a blue solution in water."},
+ {formula:"KMnO4", name:"Potassium permanganate", state:"Solid", color:"#4B1362", desc:"Dark purple, almost black crystals; dissolves to a deep purple solution."},
+ {formula:"AgNO3", name:"Silver nitrate", state:"Solid", color:"#F2F2EC", desc:"Colorless crystalline solid; darkens on exposure to light."},
+ {formula:"NaHCO3", name:"Sodium bicarbonate (baking soda)", state:"Solid", color:"#F7F7F2", desc:"Fine white powder, mildly alkaline."},
+ {formula:"CH3COOH", name:"Acetic acid (vinegar)", state:"Liquid", color:"#F5F0DC", desc:"A clear, pungent-smelling liquid."},
+ {formula:"NH3", name:"Ammonia", state:"Liquid", color:"#DFF5E6", desc:"A colorless gas with a sharp smell, commonly used as an aqueous solution."},
+ {formula:"Na", name:"Sodium", state:"Solid", color:"#C7CDD1", desc:"Soft, silvery metal that tarnishes instantly in air."},
+ {formula:"K", name:"Potassium", state:"Solid", color:"#C0C6CB", desc:"Soft, silvery-white metal, even more reactive than sodium."},
+ {formula:"Mg", name:"Magnesium", state:"Solid", color:"#D6DADD", desc:"Lightweight, silvery-white metal."},
+ {formula:"Fe", name:"Iron", state:"Solid", color:"#8A8F94", desc:"Grey, lustrous metal; rusts in moist air."},
+ {formula:"Zn", name:"Zinc", state:"Solid", color:"#A9AEB4", desc:"Bluish-white, brittle metal at room temperature."},
+ {formula:"Cu", name:"Copper", state:"Solid", color:"#C97A4A", desc:"Distinctive reddish-orange metal, excellent conductor."},
+ {formula:"Ca", name:"Calcium", state:"Solid", color:"#C9CDCF", desc:"Fairly soft, silvery metal that tarnishes in air."},
+ {formula:"Al", name:"Aluminium", state:"Solid", color:"#C7CCCF", desc:"Lightweight silvery metal with a protective oxide layer."},
+ {formula:"I2", name:"Iodine", state:"Solid", color:"#4B1450", desc:"Dark purple-black crystalline solid that sublimes into violet vapor."},
+ {formula:"Br2", name:"Bromine", state:"Liquid", color:"#7A2E1E", desc:"A dense, reddish-brown liquid — one of the few liquid elements."},
+ {formula:"Hg", name:"Mercury", state:"Liquid", color:"#B8BEC2", desc:"Shiny, silvery liquid metal at room temperature."},
+ {formula:"CaCO3", name:"Calcium carbonate (limestone)", state:"Solid", color:"#F2F2EC", desc:"White solid, found naturally as limestone, chalk, and marble."},
+ {formula:"Pb(NO3)2", name:"Lead(II) nitrate", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid, soluble in water."},
+ {formula:"KI", name:"Potassium iodide", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid, dissolves to a colorless solution."},
+ {formula:"BaCl2", name:"Barium chloride", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid."},
+ {formula:"FeCl3", name:"Iron(III) chloride", state:"Solid", color:"#C97A2E", desc:"Yellow-brown crystalline solid; forms an orange-brown solution."},
+ {formula:"ZnSO4", name:"Zinc sulfate", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid."},
+ {formula:"NiSO4", name:"Nickel sulfate", state:"Solid", color:"#4CAE50", desc:"Green crystalline solid."},
+ {formula:"Co(NO3)2", name:"Cobalt(II) nitrate", state:"Solid", color:"#C0392B", desc:"Reddish crystalline solid."},
+ {formula:"CdSO4", name:"Cadmium sulfate", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid."},
+ {formula:"HgCl2", name:"Mercury(II) chloride", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid; highly toxic."},
+ {formula:"Na2S", name:"Sodium sulfide", state:"Solid", color:"#F2EAC9", desc:"Pale yellow to white solid with a rotten-egg odor."},
+ {formula:"K2CrO4", name:"Potassium chromate", state:"Solid", color:"#F1C40F", desc:"Bright yellow crystalline solid."},
+ {formula:"KBr", name:"Potassium bromide", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid."},
+ {formula:"H2O2", name:"Hydrogen peroxide", state:"Liquid", color:"#EAF7F5", desc:"A colorless liquid, slightly more viscous than water."},
+ {formula:"KClO3", name:"Potassium chlorate", state:"Solid", color:"#F2F2EC", desc:"White crystalline solid — a strong oxidizer."},
+ {formula:"Fe2O3", name:"Iron(III) oxide (rust)", state:"Solid", color:"#A0522D", desc:"Reddish-brown powder — common rust."},
+ {formula:"CO2", name:"Carbon dioxide", state:"Gas", color:"#E8F0F5", desc:"A colorless, odorless gas, denser than air."},
+ {formula:"O2", name:"Oxygen", state:"Gas", color:"#E8F0F5", desc:"A colorless, odorless gas essential for combustion and respiration."},
+ {formula:"N2", name:"Nitrogen", state:"Gas", color:"#E8F0F5", desc:"A colorless, largely unreactive gas making up most of the atmosphere."},
+ {formula:"C6H12O6", name:"Glucose", state:"Solid", color:"#F7F7F0", desc:"White crystalline solid, sweet-tasting."},
+ {formula:"C2H5OH", name:"Ethanol", state:"Liquid", color:"#EAF7F0", desc:"A clear, volatile liquid with a characteristic smell."},
+ {formula:"Mg(OH)2", name:"Magnesium hydroxide (milk of magnesia)", state:"Solid", color:"#F2F2EC", desc:"White solid, forms a milky suspension in water."},
+ {formula:"HNO3", name:"Nitric acid", state:"Liquid", color:"#EAF7E8", desc:"A colorless, fuming, highly corrosive liquid."},
+ {formula:"KOH", name:"Potassium hydroxide", state:"Solid", color:"#F0F0EC", desc:"White, deliquescent solid pellets; forms a strongly caustic solution in water."},
+ {formula:"H3PO4", name:"Phosphoric acid", state:"Liquid", color:"#F2EFE0", desc:"A colorless, syrupy, non-volatile liquid."}
+];
+
+/* ---- acid-base stoichiometry table (for precise titration) ---- */
+const ACID_BASE_DB = [
+ {formula:"HCl", n:1, type:"acid", pretty:"HCl", anion:"Cl"},
+ {formula:"H2SO4", n:2, type:"acid", pretty:"H₂SO₄", anion:"SO₄"},
+ {formula:"CH3COOH", n:1, type:"acid", pretty:"CH₃COOH", anion:"CH₃COO", isAcetate:true},
+ {formula:"HNO3", n:1, type:"acid", pretty:"HNO₃", anion:"NO₃"},
+ {formula:"H3PO4", n:3, type:"acid", pretty:"H₃PO₄", anion:"PO₄"},
+ {formula:"NaOH", n:1, type:"base", pretty:"NaOH", cation:"Na"},
+ {formula:"KOH", n:1, type:"base", pretty:"KOH", cation:"K"},
+ {formula:"Mg(OH)2", n:2, type:"base", pretty:"Mg(OH)₂", cation:"Mg"},
+ {formula:"NH3", n:1, type:"base", pretty:"NH₃", cation:"NH₄"}
+];
+function acidBaseInfo(formula){ return ACID_BASE_DB.find(x=>x.formula===formula) || null; }
+function fmtNum(n,d){ return (typeof n==='number' && isFinite(n)) ? n.toFixed(d) : '—'; }
+const SUBDIGITS = {'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'};
+function toSubscript(n){ return n<=1 ? '' : String(n).split('').map(d=>SUBDIGITS[d]||d).join(''); }
+function gcdNum(a,b){ return b===0 ? a : gcdNum(b,a%b); }
+function buildAcidBaseEquation(acidFormula, baseFormula){
+  const acid = acidBaseInfo(acidFormula), base = acidBaseInfo(baseFormula);
+  if(!acid || !base || acid.type!=='acid' || base.type!=='base') return null;
+  const g = gcdNum(acid.n, base.n);
+  const coeffAcid = base.n/g, coeffBase = acid.n/g;
+  const waterCoeff = coeffAcid*acid.n;
+  const cationSub = acid.n/g, anionSub = base.n/g;
+  const salt = acid.isAcetate
+    ? `${acid.anion}${base.cation}${toSubscript(anionSub)}`
+    : `${base.cation}${toSubscript(cationSub)}${acid.anion}${toSubscript(anionSub)}`;
+  const eq = `${coeffAcid>1?coeffAcid:''}${acid.pretty} + ${coeffBase>1?coeffBase:''}${base.pretty} → ${salt} + ${waterCoeff>1?waterCoeff:''}H₂O`;
+  return {eq, salt};
+}
+
+/* ---- fuzzy "did you mean" matching ---- */
+function levenshtein(a,b){
+  a=(a||'').toLowerCase(); b=(b||'').toLowerCase();
+  const m=a.length, n=b.length;
+  if(m===0) return n; if(n===0) return m;
+  const dp = Array.from({length:m+1},()=>new Array(n+1).fill(0));
+  for(let i=0;i<=m;i++) dp[i][0]=i;
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+function suggestClosest(query){
+  const q = (query||'').trim().toLowerCase();
+  if(!q) return null;
+  let best=null, bestDist=Infinity;
+  SUBSTANCES.forEach(s=>{
+    const d1=levenshtein(q,s.formula), d2=levenshtein(q,s.name);
+    if(d1<bestDist){ bestDist=d1; best=s.formula; }
+    if(d2<bestDist){ bestDist=d2; best=s.formula; }
+  });
+  ELEMENTS.forEach(e=>{
+    const d1=levenshtein(q,e.sym), d2=levenshtein(q,e.name);
+    if(d1<bestDist){ bestDist=d1; best=e.sym; }
+    if(d2<bestDist){ bestDist=d2; best=e.name; }
+  });
+  const threshold = Math.max(2, Math.floor(q.length*0.4));
+  return bestDist<=threshold ? best : null;
+}
+
+function bottleSVG(color){
+  return `<svg viewBox="0 0 40 56"><path d="M14 4 L14 16 L6 44 Q6 50 14 50 L26 50 Q34 50 34 44 L26 16 L26 4 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.35" stroke-width="1.5"/><path d="M9 30 Q20 26 31 30 L26 44 Q26 48 20 48 Q14 48 14 44 Z" fill="${color}" opacity="0.85"/><rect x="12" y="2" width="16" height="4" rx="1" fill="#3ECF8E" fill-opacity="0.3"/></svg>`;
+}
+function buildShelf(){
+  document.getElementById('labShelf').innerHTML = SUBSTANCES.map(s=>`
+    <div class="bottle" onclick="openAddSubstanceModal('${s.formula}')" title="${s.name}">
+      ${bottleSVG(s.color)}
+      <div class="b-label">${s.formula}</div>
+    </div>
+  `).join('');
+}
+
+function elementAsSubstance(query){
+  const q = query.trim().toLowerCase();
+  const e = ELEMENTS.find(x=>x.sym.toLowerCase()===q || x.name.toLowerCase()===q);
+  if(!e) return null;
+  const gasSet = ['H','He','N','O','F','Ne','Cl','Ar','Kr','Xe','Rn'];
+  const liquidSet = ['Hg','Br'];
+  const state = gasSet.includes(e.sym) ? 'Gas' : (liquidSet.includes(e.sym) ? 'Liquid' : 'Solid');
+  return {formula:e.sym, name:e.name, state, color:CAT_COLOR[e.cat]||'#8A8F94', desc:`A ${e.cat}, atomic number ${e.n}, atomic mass ${e.mass}.`};
+}
+function findSubstance(query){
+  const q = query.trim();
+  let s = SUBSTANCES.find(x=>x.formula.toLowerCase()===q.toLowerCase() || x.name.toLowerCase()===q.toLowerCase());
+  if(s) return s;
+  return elementAsSubstance(q);
+}
+
+function labSearch(){
+  const raw = document.getElementById('labSearchInput').value;
+  const q = raw.trim();
+  const box = document.getElementById('labSearchResult');
+  if(!q) return;
+  const s = findSubstance(q);
+  if(!s){
+    const suggestion = suggestClosest(q);
+    box.innerHTML = suggestion
+      ? `<div class="ls-desc">No exact match for "${raw}". Did you mean <b style="color:var(--green); cursor:pointer" onclick="document.getElementById('labSearchInput').value='${suggestion}'; labSearch();">${suggestion}</b>?</div>`
+      : `<div class="ls-desc">No matching element or compound found. Try a formula like "CuSO4" or a name like "Copper".</div>`;
+    box.classList.add('show');
+    return;
+  }
+  box.innerHTML = `
+    <div class="ls-head">
+      <div class="ls-swatch" style="background:${s.color}"></div>
+      <div>
+        <div class="ls-name">${s.name}</div>
+        <div class="ls-formula">${s.formula}</div>
+        <div class="ls-state">${s.state}</div>
+      </div>
+    </div>
+    <div class="ls-desc">${s.desc}</div>
+    <button class="ls-add-btn" onclick="openAddSubstanceModal('${s.formula}')">Add to vessel</button>
+  `;
+  box.classList.add('show');
+}
+document.getElementById('labSearchInput') && document.getElementById('labSearchInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') labSearch();
+});
+
+/* ---- vessel / titration engine ---- */
+let vesselItems = [];
+let titrationState = null;
+const CATEGORY_EFFECT = {
+ "Combustion":"spark", "Precipitation":"sink", "Decomposition":"bubble", "Synthesis":"flash",
+ "Displacement":"sink", "Redox":"bubble", "Acid–Base":"bubble", "Organic Chemistry":"bubble", "Biological":"bubble"
+};
+function hexToRgb(hex){ hex=hex.replace('#',''); if(hex.length===3) hex=hex.split('').map(c=>c+c).join(''); const n=parseInt(hex,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+function blendColor(h1,h2){ const a=hexToRgb(h1), b=hexToRgb(h2); return `rgb(${Math.round((a[0]+b[0])/2)},${Math.round((a[1]+b[1])/2)},${Math.round((a[2]+b[2])/2)})`; }
+function interpolateColor(h1,h2,t){ const a=hexToRgb(h1), b=hexToRgb(h2); return `rgb(${Math.round(a[0]+(b[0]-a[0])*t)},${Math.round(a[1]+(b[1]-a[1])*t)},${Math.round(a[2]+(b[2]-a[2])*t)})`; }
+
+/* -- add-substance modal (grams / moles / cm³) -- */
+let pendingFormula = null;
+let modalUnit = 'mol';
+function openAddSubstanceModal(formula){
+  if(!currentVesselType){
+    alert('Select an apparatus from Lab Tools first — the vessel must be chosen before adding reagents.');
+    return;
+  }
+  const s = findSubstance(formula);
+  if(!s) return;
+  let pairWarning = '';
+  if(vesselItems.length === 1){
+    const first = acidBaseInfo(vesselItems[0].formula);
+    const second = acidBaseInfo(formula);
+    if(first && second && first.type !== second.type){
+      openBuretteLoadModal(formula);
+      return;
+    }
+    if(first && second && first.type === second.type){
+      pairWarning = `Note: ${vesselItems[0].formula} and ${formula} are both ${first.type}s — a titration needs one acid and one base. This addition will be treated as a general mixture instead, not a precise titration.`;
+    }
+  }
+  if(vesselItems.length >= 2){
+    vesselItems = []; titrationState = null; clearFx();
+    document.getElementById('reactionResult').classList.remove('show','none');
+    hideTitrationControls();
+  }
+  pendingFormula = formula;
+  modalUnit = 'mol';
+  const mm = molarMass(formula);
+  const isLiquid = s.state === 'Liquid';
+  const suggestedMoles = 0.0250;
+  const suggestedMass = mm ? (mm.total*suggestedMoles) : 1;
+
+  document.getElementById('addSubTitle').textContent = `Add ${s.name} (${s.formula})`;
+  document.getElementById('addSubUnitTabs').innerHTML = `
+    <button class="unit-tab active" id="tab-mol" onclick="switchModalUnit('mol')">mol</button>
+    <button class="unit-tab" id="tab-g" onclick="switchModalUnit('g')">g</button>
+    ${isLiquid ? `<button class="unit-tab" id="tab-mL" onclick="switchModalUnit('mL')">cm³ (pipette)</button>` : ''}
+  `;
+  document.getElementById('addSubMol').value = suggestedMoles.toFixed(4);
+  document.getElementById('addSubGrams').value = suggestedMass.toFixed(3);
+  document.getElementById('addSubMM').textContent = mm ? mm.total.toFixed(3) : '—';
+  document.getElementById('addSubVolume').value = '25.00';
+  document.getElementById('addSubConc').value = '0.1000';
+  document.getElementById('addSubFieldsMol').style.display = 'block';
+  document.getElementById('addSubFieldsG').style.display = 'none';
+  document.getElementById('addSubFieldsML').style.display = 'none';
+  document.getElementById('addSubError').textContent = '';
+  document.getElementById('addSubWarning').textContent = pairWarning;
+  document.getElementById('addSubOverlay').classList.add('show');
+}
+function switchModalUnit(unit){
+  modalUnit = unit;
+  ['mol','g','mL'].forEach(u=>{
+    const tab = document.getElementById('tab-'+u);
+    if(tab) tab.classList.toggle('active', u===unit);
+  });
+  document.getElementById('addSubFieldsMol').style.display = unit==='mol' ? 'block' : 'none';
+  document.getElementById('addSubFieldsG').style.display = unit==='g' ? 'block' : 'none';
+  document.getElementById('addSubFieldsML').style.display = unit==='mL' ? 'block' : 'none';
+}
+function closeAddSubModal(){ document.getElementById('addSubOverlay').classList.remove('show'); }
+function confirmAddSubstance(){
+  const s = findSubstance(pendingFormula);
+  const mm = molarMass(pendingFormula);
+  const err = document.getElementById('addSubError');
+  let moles;
+  if(modalUnit === 'mol'){
+    moles = parseFloat(document.getElementById('addSubMol').value);
+    if(!isFinite(moles) || moles<=0){ err.textContent = 'The amount in moles must be a positive number, since a negative or zero quantity cannot physically be added — did you mean something like 0.0250?'; return; }
+  } else if(modalUnit === 'g'){
+    const g = parseFloat(document.getElementById('addSubGrams').value);
+    if(!isFinite(g) || g<=0){ err.textContent = `Mass must be a positive number — you can't weigh out zero or negative grams. Did you mean ${mm?fmtNum(mm.total*0.025,3):'1.000'}?`; return; }
+    moles = g / mm.total;
+  } else {
+    const v = parseFloat(document.getElementById('addSubVolume').value);
+    const c = parseFloat(document.getElementById('addSubConc').value);
+    if(!isFinite(v) || v<=0){ err.textContent = "Volume must be a positive number — a pipette can't draw a negative or zero amount. Did you mean 25.00?"; return; }
+    if(!isFinite(c) || c<=0){ err.textContent = 'Concentration must be a positive number, since molarity is moles per liter and can never be negative. Did you mean 0.1000?'; return; }
+    moles = c * (v/1000);
+  }
+  err.textContent = '';
+  vesselItems.push({...s, moles});
+  closeAddSubModal();
+  renderVessel();
+  if(vesselItems.length === 2) runVesselReaction();
+}
+
+/* -- burette-load modal (for a valid acid/base counterpart) -- */
+let pendingTitrantFormula = null;
+const BURETTE_TIP = "Real technique matters: rinse the burette with distilled water, confirm the stopcock turns smoothly, mount it vertically with the graduations facing you, and check for no air bubbles trapped below the stopcock — a trapped bubble makes your delivered volume read higher than what actually left the burette.";
+function openBuretteLoadModal(formula){
+  const s = findSubstance(formula);
+  pendingTitrantFormula = formula;
+  const eqInfo = buildAcidBaseEquation(
+    acidBaseInfo(vesselItems[0].formula).type==='acid' ? vesselItems[0].formula : formula,
+    acidBaseInfo(vesselItems[0].formula).type==='base' ? vesselItems[0].formula : formula
+  );
+  document.getElementById('buretteTitle').textContent = `Load burette with ${s.name} (${s.formula})`;
+  document.getElementById('buretteDesc').innerHTML = `This forms a valid acid–base pair with ${vesselItems[0].formula} already in the flask.${eqInfo ? `<br><span style="color:var(--green); font-family:var(--mono)">${eqInfo.eq}</span>` : ''}`;
+  document.getElementById('buretteSize').value = '50';
+  document.getElementById('buretteConc').value = '0.1000';
+  document.getElementById('buretteError').textContent = '';
+  document.getElementById('buretteTip').textContent = BURETTE_TIP;
+  document.getElementById('buretteOverlay').classList.add('show');
+}
+function closeBuretteModal(){ document.getElementById('buretteOverlay').classList.remove('show'); }
+function confirmLoadBurette(){
+  const conc = parseFloat(document.getElementById('buretteConc').value);
+  const capacity = parseFloat(document.getElementById('buretteSize').value);
+  const err = document.getElementById('buretteError');
+  if(!isFinite(conc) || conc<=0){ err.textContent = 'Concentration must be a positive number, since molarity is moles per liter and can never be negative. Did you mean 0.1000?'; return; }
+  err.textContent = '';
+  const s = findSubstance(pendingTitrantFormula);
+  const info = acidBaseInfo(pendingTitrantFormula);
+  const analyteType = acidBaseInfo(vesselItems[0].formula).type;
+  const acidFormula = analyteType==='acid' ? vesselItems[0].formula : pendingTitrantFormula;
+  const baseFormula = analyteType==='base' ? vesselItems[0].formula : pendingTitrantFormula;
+  vesselItems.push({...s, moles:0, isTitrant:true});
+  titrationState = {
+    analyteFormula: vesselItems[0].formula,
+    analyteN: acidBaseInfo(vesselItems[0].formula).n,
+    analyteMoles: vesselItems[0].moles,
+    titrantFormula: pendingTitrantFormula,
+    titrantN: info.n,
+    titrantConc: conc,
+    buretteCapacity: capacity,
+    volumeAdded: 0,
+    complete: false,
+    acidFormula, baseFormula
+  };
+  closeBuretteModal();
+  renderVessel();
+  showTitrationControls();
+}
+
+function clearVessel(){
+  vesselItems = [];
+  titrationState = null;
+  clearFx();
+  document.getElementById('reactionResult').classList.remove('show','none');
+  hideTitrationControls();
+  renderVessel();
+}
+function renderVessel(){
+  const slot0 = document.getElementById('slot0'), slot1 = document.getElementById('slot1');
+  if(!slot0) return;
+  slot0.textContent = vesselItems[0] ? vesselItems[0].formula : 'empty';
+  slot0.classList.toggle('filled', !!vesselItems[0]);
+  slot1.textContent = vesselItems[1] ? vesselItems[1].formula : 'empty';
+  slot1.classList.toggle('filled', !!vesselItems[1]);
+  const fill = document.getElementById('vesselLiquidFill');
+  if(!fill) return;
+  if(vesselItems.length === 0){
+    fill.style.height = '0%'; fill.style.background = 'transparent';
+  } else if(vesselItems.length === 1){
+    fill.style.height = '36%'; fill.style.background = vesselItems[0].color;
+  } else if(titrationState){
+    fill.style.height = '58%';
+    const analyteInfo = acidBaseInfo(titrationState.analyteFormula);
+    fill.style.background = analyteInfo.type === 'acid' ? '#EAF7F0' : '#E85D9E';
+  } else {
+    fill.style.height = '58%'; fill.style.background = blendColor(vesselItems[0].color, vesselItems[1].color);
+  }
+}
+function findVesselReaction(fA, fB){
+  const nA = normFormula(fA), nB = normFormula(fB);
+  return REACTIONS.find(r=>{
+    if(r.reactants.length !== 2) return false;
+    const normed = r.reactants.map(normFormula);
+    return normed.includes(nA) && normed.includes(nB);
+  }) || null;
+}
+function spawnParticles(type, count, warm){
+  const fx = document.getElementById('vesselFx');
+  if(!fx) return;
+  fx.innerHTML = '';
+  for(let i=0;i<count;i++){
+    const p = document.createElement('div');
+    p.className = 'fx-particle';
+    const left = 25 + Math.random()*50;
+    const delay = Math.random()*1.6;
+    const size = type==='spark' ? (3+Math.random()*3) : (5+Math.random()*7);
+    p.style.left = left + '%';
+    p.style.bottom = '16%';
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.animationDelay = delay+'s';
+    if(type==='bubble'){
+      p.style.background = warm ? 'rgba(255,180,120,0.7)' : 'rgba(160,220,255,0.7)';
+      p.style.animation = 'fx-rise 2.2s ease-in infinite';
+    } else if(type==='spark'){
+      p.style.background = 'radial-gradient(circle, #FFD27A, #FF7A3D)';
+      p.style.boxShadow = '0 0 6px 2px rgba(255,140,60,0.6)';
+      p.style.animation = 'fx-spark 1.1s ease-out infinite';
+    } else if(type==='sink'){
+      p.style.background = 'rgba(255,255,255,0.55)';
+      p.style.animationDelay = (i*0.15)+'s';
+      p.style.animation = 'fx-sink 1.6s ease-in forwards';
+    }
+    fx.appendChild(p);
+  }
+}
+function clearFx(){
+  const fx = document.getElementById('vesselFx');
+  if(fx) fx.innerHTML = '';
+  const wrap = document.getElementById('vesselSvgWrap');
+  if(wrap) wrap.classList.remove('flash-anim');
+}
+function toggleShelf(){
+  document.getElementById('shelfPanel').classList.toggle('open');
+  document.getElementById('shelfArrow').classList.toggle('open');
+}
+function toggleTools(){
+  document.getElementById('toolsPanel').classList.toggle('open');
+  document.getElementById('toolsArrow').classList.toggle('open');
+}
+function runVesselReaction(){
+  const [A,B] = vesselItems;
+  const match = findVesselReaction(A.formula, B.formula);
+  const box = document.getElementById('reactionResult');
+  if(match){
+    const effect = CATEGORY_EFFECT[match.cat] || 'bubble';
+    const warm = match.energy === 'exo';
+    if(effect === 'flash'){
+      const wrap = document.getElementById('vesselSvgWrap');
+      wrap.classList.remove('flash-anim'); void wrap.offsetWidth; wrap.classList.add('flash-anim');
+      spawnParticles('spark', 8, true);
+    } else {
+      spawnParticles(effect, effect==='sink' ? 10 : 14, warm);
+    }
+    box.className = 'reaction-result show';
+    box.innerHTML = `
+      <div class="rr-name">${match.name}</div>
+      <div class="rr-eq">${match.eq}</div>
+      <div class="rr-desc">${match.desc}</div>
+    `;
+  } else {
+    clearFx();
+    box.className = 'reaction-result show none';
+    box.innerHTML = `<div class="rr-name">No known visible reaction</div><div class="rr-desc">These two substances aren't paired in the reaction database as a visible reaction.</div>`;
+  }
+}
+
+/* -- precise burette titration controls -- */
+function showTitrationControls(){
+  const panel = document.getElementById('titrationControlsPanel');
+  panel.style.display = 'block';
+  document.getElementById('tcVolume').textContent = '0.00 mL';
+  document.getElementById('tcProgress').textContent = '0%';
+  document.getElementById('tcIncrement').value = '0.50';
+  document.getElementById('tcError').textContent = '';
+  const eqInfo = buildAcidBaseEquation(titrationState.acidFormula, titrationState.baseFormula);
+  const reactionsMatch = findVesselReaction(titrationState.acidFormula, titrationState.baseFormula);
+  const eqBox = document.getElementById('tcEquation');
+  if(reactionsMatch){
+    eqBox.innerHTML = `<div class="rr-eq" style="margin-bottom:0;">${reactionsMatch.eq}</div><div class="modal-hint">${reactionsMatch.name}</div>`;
+  } else if(eqInfo){
+    eqBox.innerHTML = `<div class="rr-eq" style="margin-bottom:0;">${eqInfo.eq}</div><div class="modal-hint">Neutralization forming ${eqInfo.salt} and water.</div>`;
+  } else {
+    eqBox.innerHTML = '';
+  }
+  eqBox.innerHTML += `<div class="modal-hint" style="margin-top:8px;">Burette capacity: ${titrationState.buretteCapacity}.00 mL</div>`;
+  const result = document.getElementById('tcResult');
+  result.classList.remove('show'); result.innerHTML = '';
+}
+function hideTitrationControls(){
+  const panel = document.getElementById('titrationControlsPanel');
+  if(panel) panel.style.display = 'none';
+}
+function quickAdd(mL){
+  document.getElementById('tcIncrement').value = mL.toFixed(2);
+  addFromBurette();
+}
+function addFromBurette(){
+  if(!titrationState || titrationState.complete) return;
+  const inc = parseFloat(document.getElementById('tcIncrement').value);
+  const err = document.getElementById('tcError');
+  if(!isFinite(inc) || inc<=0){ err.textContent = "The increment must be a positive number — you can't dispense a negative or zero volume from the burette. Did you mean 0.50?"; return; }
+  if(titrationState.volumeAdded + inc > titrationState.buretteCapacity){
+    err.textContent = `Your burette holds ${titrationState.buretteCapacity}.00 mL and you've reached its capacity — that's why the addition was blocked. Try a more concentrated titrant, a larger burette next time, or a smaller analyte sample.`;
+    return;
+  }
+  err.textContent = '';
+  titrationState.volumeAdded += inc;
+  const molesDelivered = titrationState.titrantConc * (titrationState.volumeAdded/1000);
+  const molesNeeded = (titrationState.analyteN * titrationState.analyteMoles) / titrationState.titrantN;
+  const progress = Math.min(1, molesNeeded>0 ? molesDelivered/molesNeeded : 0);
+
+  document.getElementById('tcVolume').textContent = fmtNum(titrationState.volumeAdded,2)+' mL';
+  document.getElementById('tcProgress').textContent = fmtNum(progress*100,1)+'%';
+  const analyteInfo = acidBaseInfo(titrationState.analyteFormula);
+  const acidColor = '#EAF7F0', baseColor = '#E85D9E';
+  const col = analyteInfo.type === 'acid' ? interpolateColor(acidColor, baseColor, progress) : interpolateColor(baseColor, acidColor, progress);
+  const fill = document.getElementById('vesselLiquidFill');
+  if(fill) fill.style.background = col;
+  spawnParticles('bubble', 3, false);
+
+  if(molesDelivered >= molesNeeded && !titrationState.complete){
+    titrationState.complete = true;
+    const veq = (molesNeeded / titrationState.titrantConc) * 1000;
+    const overshoot = titrationState.volumeAdded - veq;
+    const eqInfo = buildAcidBaseEquation(titrationState.acidFormula, titrationState.baseFormula);
+    const reactionsMatch = findVesselReaction(titrationState.acidFormula, titrationState.baseFormula);
+    const result = document.getElementById('tcResult');
+    result.innerHTML = `
+      <div class="rr-name">Endpoint reached!</div>
+      ${reactionsMatch ? `<div class="rr-eq">${reactionsMatch.eq}</div>` : (eqInfo ? `<div class="rr-eq">${eqInfo.eq}</div>` : '')}
+      <div class="rr-desc">
+        Equivalence volume (calculated from ${titrationState.analyteN}×n(${titrationState.analyteFormula}) = ${titrationState.titrantN}×n(${titrationState.titrantFormula})): <b>${fmtNum(veq,2)} mL</b><br>
+        Volume you delivered: <b>${fmtNum(titrationState.volumeAdded,2)} mL</b>${overshoot>0.005 ? ` — overshot by ${fmtNum(overshoot,2)} mL because you added more titrant than needed after the endpoint. Try smaller increments as you approach the endpoint next time.` : ' — precisely on target!'}
+      </div>
+    `;
+    result.classList.add('show');
+  }
+}
+document.getElementById('tcIncrement') && document.getElementById('tcIncrement').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') addFromBurette();
+});
+
+/* ---- realistic vessel / apparatus gallery ---- */
+const VESSEL_TYPES = [
+ {id:'beaker', name:'Beaker',
+   outline:`<path d="M32 10 L32 42 L14 122 Q14 140 34 140 L86 140 Q106 140 106 122 L88 42 L88 10 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><rect x="28" y="6" width="64" height="8" rx="2" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2"/><line x1="14" y1="122" x2="106" y2="122" stroke="#3ECF8E" stroke-opacity="0.15" stroke-width="1"/><path d="M92 8 L100 8 L96 4 Z" fill="#3ECF8E" fill-opacity="0.35"/>`,
+   clip:'polygon(27% 7%, 73% 7%, 73% 28%, 88% 81%, 88% 90%, 82% 93%, 18% 93%, 12% 90%, 12% 81%, 27% 28%)'},
+ {id:'flask', name:'Erlenmeyer Flask',
+   outline:`<path d="M50 10 L50 40 L20 128 Q20 140 34 140 L86 140 Q100 140 100 128 L70 40 L70 10 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><rect x="46" y="6" width="28" height="8" rx="2" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2"/>`,
+   clip:'polygon(42% 7%, 58% 7%, 58% 27%, 83% 85%, 83% 93%, 17% 93%, 17% 85%, 42% 27%)'},
+ {id:'roundflask', name:'Round-bottom Flask',
+   outline:`<path d="M50 10 L50 55 Q20 60 20 95 Q20 132 60 132 Q100 132 100 95 Q100 60 70 55 L70 10 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><rect x="46" y="6" width="28" height="8" rx="2" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2"/>`,
+   clip:'polygon(42% 7%, 58% 7%, 58% 36%, 72% 40%, 82% 52%, 86% 68%, 82% 84%, 68% 92%, 50% 94%, 32% 92%, 18% 84%, 14% 68%, 18% 52%, 28% 40%, 42% 36%)'},
+ {id:'burette', name:'Burette',
+   outline:`<rect x="48" y="8" width="24" height="118" rx="6" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><path d="M48 126 L72 126 L60 144 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><line x1="44" y1="40" x2="50" y2="40" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.5"/><line x1="44" y1="70" x2="50" y2="70" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.5"/><line x1="44" y1="100" x2="50" y2="100" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.5"/>`,
+   clip:'polygon(42% 6%, 58% 6%, 58% 84%, 50% 96%, 42% 84%)'},
+ {id:'cylinder', name:'Graduated Cylinder',
+   outline:`<path d="M38 14 L38 118 Q38 136 60 136 Q82 136 82 118 L82 14" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><line x1="30" y1="14" x2="90" y2="14" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><line x1="38" y1="45" x2="46" y2="45" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.2"/><line x1="38" y1="75" x2="46" y2="75" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.2"/><line x1="38" y1="105" x2="46" y2="105" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.2"/>`,
+   clip:'polygon(32% 10%, 68% 10%, 68% 84%, 60% 94%, 40% 94%, 32% 84%)'},
+ {id:'testtube', name:'Test Tube',
+   outline:`<path d="M45 10 L45 120 Q45 138 60 138 Q75 138 75 120 L75 10" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><line x1="40" y1="10" x2="80" y2="10" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2"/>`,
+   clip:'polygon(38% 7%, 62% 7%, 62% 82%, 50% 94%, 38% 82%)'},
+ {id:'pipette', name:'Pipette',
+   outline:`<path d="M54 8 L66 8 L66 40 Q78 46 78 58 Q78 70 66 76 L66 120 L60 138 L54 120 L54 76 Q42 70 42 58 Q42 46 54 40 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.2"/>`,
+   clip:'polygon(45% 6%, 55% 6%, 55% 27%, 65% 33%, 65% 45%, 55% 51%, 55% 80%, 50% 94%, 45% 80%, 45% 51%, 35% 45%, 35% 33%, 45% 27%)'},
+ {id:'volflask', name:'Volumetric Flask',
+   outline:`<path d="M52 8 L52 34 L28 100 Q20 130 60 130 Q100 130 92 100 L68 34 L68 8 Z" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2.5"/><rect x="48" y="4" width="24" height="6" rx="2" fill="none" stroke="#3ECF8E" stroke-opacity="0.4" stroke-width="2"/><line x1="52" y1="34" x2="68" y2="34" stroke="#3ECF8E" stroke-opacity="0.3" stroke-width="1.2"/>`,
+   clip:'polygon(44% 6%, 56% 6%, 56% 23%, 24% 78%, 20% 92%, 80% 92%, 76% 78%, 44% 23%)'}
+];
+let currentVesselType = null;
+function renderVesselShape(){
+  const wrap = document.getElementById('vesselSvgWrap');
+  if(!currentVesselType){
+    wrap.innerHTML = `<div class="vessel-placeholder">Select an apparatus<br>from Lab Tools &rarr;</div>`;
+    const cw = document.getElementById('vesselControlsWrap');
+    if(cw) cw.style.display = 'none';
+    return;
+  }
+  const t = VESSEL_TYPES.find(v=>v.id===currentVesselType) || VESSEL_TYPES[0];
+  wrap.innerHTML = `
+    <svg viewBox="0 0 120 150" style="position:absolute; inset:0; width:100%; height:100%;">${t.outline}</svg>
+    <div class="vessel-clip" style="clip-path:${t.clip}">
+      <div class="vessel-liquid-fill" id="vesselLiquidFill"></div>
+    </div>
+    <div class="vessel-fx" id="vesselFx"></div>
+  `;
+  const cw = document.getElementById('vesselControlsWrap');
+  if(cw) cw.style.display = 'block';
+  renderVessel();
+}
+function selectVesselTool(typeId){
+  currentVesselType = typeId;
+  renderVesselShape();
+  document.querySelectorAll('.tool-item').forEach(el=>el.classList.remove('active'));
+  const activeEl = document.getElementById('tool-'+typeId);
+  if(activeEl) activeEl.classList.add('active');
+}
+function buildToolsGrid(){
+  document.getElementById('toolsGrid').innerHTML = VESSEL_TYPES.map(t=>`
+    <div class="tool-item ${t.id===currentVesselType?'active':''}" id="tool-${t.id}" onclick="selectVesselTool('${t.id}')">
+      <svg viewBox="0 0 120 150">${t.outline}</svg>
+      <div class="tool-label">${t.name}</div>
+    </div>
+  `).join('');
+}
+
 /* ============ init ============ */
 buildChips();
 buildPeriodicTable();
@@ -1715,6 +2521,9 @@ buildLessonGrid();
 buildStoichPage();
 buildCalcTabs();
 buildFormulaSheet();
+buildShelf();
+buildToolsGrid();
+renderVesselShape();
 document.addEventListener('keydown', e=>{
   if(e.key === 'Escape'){ closeDetail(); closePtPanel(); closeSearch(); }
 });
